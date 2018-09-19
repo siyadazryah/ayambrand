@@ -32,6 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				<div class="panel-body"><div class="header-create">
 						<div class="header-form form-inline">
 							<!--<h3 class="heading">Invoice</h3>-->
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#">Invoice Details</a></li>
+                                <li><?= Html::a('Invoice Summary', ['invoice-summary', 'id' => $id]) ?></li>
+                            </ul>
 							<?php $form = ActiveForm::begin(); ?>
 							<span class="main-title-span">Invoice Details</span>
 							<div class="row row-padng-top">
@@ -108,7 +112,11 @@ $this->params['breadcrumbs'][] = $this->title;
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
 									<?= $form->field($model, 'freight_amount')->textInput(['maxlength' => true]) ?>
 								</div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-calculate"></label>
+                                    <button type="button" class="btn-primary invoice_calculate">Calculate</button>
 							</div>
+                            </div>
 							<span class="main-title-span">Invoice Charge</span>
 							<div class="appointment-service-create row-padng-top">
 								<table class="table table-bordered table-responsive" id="invoice_details">
@@ -128,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
 											<td>Total Invoice</td>
 											<td></td>
 											<td>
-												<select id="" class="form-control" name="">
+                                                <select id="total_invoice" class="form-control currency" name="">
 													<option >Select</option>
 													<?php
 													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
@@ -142,15 +150,15 @@ $this->params['breadcrumbs'][] = $this->title;
 													?>
 												</select>
 											</td>
-											<td><input type="text" value=""  class="form-control" readonly="readonly"></td>
-											<td><input type="text" value=""  class="form-control"></td>
-											<td><input type="text" value=""  class="form-control" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control total_invoice_exchange" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control total_invoice_ex_amount"></td>
+                                            <td><input type="text" value=""  class="form-control total_invoice_amount" id="invoice_amount" readonly="readonly"></td>
 										</tr>
 										<tr>
 											<td>Other Taxable Charge</td>
 											<td><input type="text"  class="form-control" value=""></td>
 											<td>
-												<select id="" class="form-control" name="">
+                                                <select id="other_tax" class="form-control currency" name="">
 													<option >Select</option>
 													<?php
 													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
@@ -164,15 +172,15 @@ $this->params['breadcrumbs'][] = $this->title;
 													?>
 												</select>
 											</td>
-											<td><input type="text" value=""  class="form-control" readonly="readonly"></td>
-											<td><input type="text" value=""  class="form-control"></td>
-											<td><input type="text" value=""  class="form-control" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control other_tax_exchange" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control other_tax_ex_amount"></td>
+                                            <td><input type="text" value=""  class="form-control other_tax_amount" id="invoice-other_tax" readonly="readonly"></td>
 										</tr>
 										<tr>
 											<td>Freight Charge</td>
 											<td><input type="text"  class="form-control" value=""></td>
 											<td>
-												<select id="" class="form-control" name="">
+                                                <select id="freight_charge" class="form-control currency" name="">
 													<option >Select</option>
 													<?php
 													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
@@ -186,15 +194,15 @@ $this->params['breadcrumbs'][] = $this->title;
 													?>
 												</select>
 											</td>
-											<td><input type="text" value=""  class="form-control" readonly="readonly"></td>
-											<td><input type="text" value=""  class="form-control"></td>
-											<td><input type="text" value=""  class="form-control" id="invoice_freight" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control freight_charge_exchange" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control freight_charge_ex_amount"></td>
+                                            <td><input type="text" value=""  class="form-control freight_charge_amount" id="invoice_freight" readonly="readonly"></td>
 										</tr>
 										<tr>
 											<td>Insurance Charge</td>
 											<td><input type="text"  class="form-control" value=""></td>
 											<td>
-												<select id="" class="form-control" name="">
+                                                <select id="insurance_charge" class="form-control currency" name="">
 													<option >Select</option>
 													<?php
 													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
@@ -208,25 +216,17 @@ $this->params['breadcrumbs'][] = $this->title;
 													?>
 												</select>
 											</td>
-											<td><input type="text" value="" class="form-control" readonly="readonly"></td>
-											<td><input type="text" value=""  class="form-control"></td>
-											<td><input type="text" value=""  class="form-control" id="invoice_insurance" readonly="readonly"></td>
+                                            <td><input type="text" value="" class="form-control insurance_charge_exchange" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control insurance_charge_ex_amount"></td>
+                                            <td><input type="text" value=""  class="form-control insurance_charge_amount" id="invoice_insurance" readonly="readonly"></td>
 										</tr>
 										<tr>
-											<td>Cost, Insurance and Freight</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+                                            <td colspan="5">Cost, Insurance and Freight</td>
+                                            <td><input type="text" value="" name="Invoice[total_amount]" id="invoice-total_amount" class="form-control" readonly="readonly"></td>
 										</tr>
 										<tr>
-											<td>GST</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+                                            <td colspan="5">GST</td>
+                                            <td><input type="text" value="" name="Invoice[gst_amount]" class="form-control" readonly="readonly"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -250,60 +250,51 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 </div>
 <script>
-	jQuery('#cargo-release_code').on('keyup', function (e) {
-		if ($(this).val() === "") {
-			$('.release_field').val('');
-		} else {
-			locationdropdown($(this).val(), 'search-release', 'search-keyword-release_code', 'release_field');
-		}
-	});
-	$('body').on('click', '.search-release', function () {
-		var id = $(this).attr('id');
-		findlocation(id, 'cargo-release_');
-	});
-	jQuery('#cargo-receipt_code').on('keyup', function (e) {
-		if ($(this).val() === "") {
-			$('.receipt_field').val('');
-		} else {
-			locationdropdown($(this).val(), 'search-receipt', 'search-keyword-receipt_code', 'release_field');
-		}
-	});
-	$('body').on('click', '.search-receipt', function () {
-		var id = $(this).attr('id');
-		findlocation(id, 'cargo-receipt_');
-	});
-	/********************/
-	function findlocation(id, dropdown) {
-		jQuery.ajax({
-			url: homeUrl + 'inpayment/in-payment/search-location',
-			type: "POST",
-			data: {id: id},
-			success: function (data) {
-				var $data = JSON.parse(data);
-				if ($data.msg === "success") {
-					$('#' + dropdown + 'id').val($data.id);
-					$('#' + dropdown + 'location').val($data.location_name);
-					$('#' + dropdown + 'code').val($data.location_code);
-					jQuery('.search-keyword-dropdown').html('');
-				}
-
-			}
-		});
-	}
-	function locationdropdown(keyword, dropdown, searchplace, emptyfield) {
-		jQuery.ajax({
-			url: homeUrl + 'inpayment/in-payment/search-locationkeyword',
-			type: "POST",
-			data: {keyword: keyword, dropdown: dropdown},
-			success: function (data) {
-				if (data === '') {
-					$('.' + emptyfield).val('');
-				} else {
-					jQuery('.' + searchplace).html(data);
-				}
-			},
-		});
-	}
+    $('.invoice_calculate').on('click', function () {
+        var invoice = $('#invoice-invoice_amount').val();
+        var freight = $('#invoice-freight_amount').val();
+        if (invoice === '') {
+            invoice = 0;
+        }
+        if (freight === '') {
+            freight = 0;
+        }
+        var invoice_freight = $('#invoice_freight').val();
+        if (invoice_freight === '') {
+            invoice_freight = 0;
+        }
+        var invoice_insurance = $('#invoice_insurance').val();
+        if (invoice_insurance === '') {
+            invoice_insurance = 0;
+        }
+        var other_tax = $('#invoice-other_tax').val();
+        if (other_tax === '') {
+            other_tax = 0;
+        }
+        var total = parseFloat(invoice) + parseFloat(freight);
+        var total_amount = total + parseFloat(invoice_freight) + parseFloat(invoice_insurance) + parseFloat(other_tax);
+        $('#invoice_amount').val(total);
+        $('#invoice-total_amount').val(total_amount);
+    });
+    $('.currency').on('change', function () {
+        var id = $(this).attr('id');
+        var val = $(this).val();
+        var amount = $('.' + id + '_amount').val();
+        jQuery.ajax({
+            url: homeUrl + 'inpayment/in-payment/exchange-rate',
+            type: "POST",
+            data: {val: val},
+            success: function (data) {
+                var $data = JSON.parse(data);
+                if ($data.msg === 'success') {
+                    $('.' + id + '_exchange').val($data.rate);
+                    console.log(amount);
+                    var ex_rate = parseFloat(amount) * parseFloat($data.rate);
+                    $('.' + id + '_ex_amount').val(ex_rate);
+                }
+            },
+        });
+    });
 </script>
 
 
