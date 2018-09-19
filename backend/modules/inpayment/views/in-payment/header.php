@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="panel panel-default">
 			<div class="panel-heading">
 			    <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-				<?= Html::a('<i class="fa-th-list"></i><span> Manage Header</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+				<?= Html::a('<i class="fa fa-th-list"></i><span> Inward Payamnet Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
 			</div>
 			<div class="panel-body">
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							<span class="main-title-span">Job Details</span>
 							<div class="row row-padng-top">
 								<div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'bg_indicator')->dropDownList(['1' => 'Sea', '2' => 'Road', '3' => 'Air']) ?>
+									<?= $form->field($model, 'bg_indicator')->dropDownList(['1' => 'Bg Indicator_1', '2' => 'Bg Indicator_2', '3' => 'Bg Indicator_3']) ?>
 
 								</div>
 								<div class='col-md-4 col-sm-6 col-xs-12 left_padd'>
@@ -112,9 +112,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 								</div>
 							</div>
-							<div class='col-md-4 col-sm-6 col-xs-12' style="float:right;">
-								<div class="form-group" style="float: right;">
-									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
+							<div class='col-md-4 col-sm-6 col-xs-12'>
+								<div class="form-group">
+									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Save Declaration', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; ']) ?>
 								</div>
 							</div>
 

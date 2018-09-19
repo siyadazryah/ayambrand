@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="box-body">
 			<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
-			<?= Html::a('<span> Create Header</span>', ['header'], ['class' => 'btn btn-block manage-btn']) ?>
+			<?= Html::a('<span>New Inward Payment Declaration</span>', ['header'], ['class' => 'btn btn-block manage-btn']) ?>
 			<?=
 			GridView::widget([
 			    'dataProvider' => $dataProvider,

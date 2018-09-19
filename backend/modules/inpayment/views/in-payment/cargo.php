@@ -173,9 +173,9 @@ $this->params['breadcrumbs'][] = $this->title;
 								<?php } ?>
 							</div>
 
-							<div class='col-md-4 col-sm-6 col-xs-12' style="float:right;">
-								<div class="form-group" style="float: right;">
-									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
+							<div class='col-md-4 col-sm-6 col-xs-12'>
+								<div class="form-group">
+									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Save Declaration', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; ']) ?>
 								</div>
 							</div>
 

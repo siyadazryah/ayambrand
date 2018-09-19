@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?= Html::a('<i class="fa-th-list"></i><span> Manage Header</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
 			</div>
+
 			<div class="panel-body">
 				<?= common\components\InpaymentTabWidget::widget(['id' => $id, 'step' => 2]) ?>
 				<div class="panel-body"><div class="header-create">
@@ -163,11 +164,12 @@ $this->params['breadcrumbs'][] = $this->title;
 									<label class="control-label" for="party-claimant_party_id">Claimant Name</label>
 									<input type="text" id="party-claimant_party_claimant_name" class="form-control claimant_field" name="claimant_name" readonly="readonly" value= "<?= !empty($claimant->claimant_name) ? $claimant->claimant_name : '' ?>">
 								</div>
+								<a class="new_claimant_party">new claimant party</a>
 							</div>
 
-							<div class='col-md-4 col-sm-6 col-xs-12' style="float:right;">
-								<div class="form-group" style="float: right;">
-									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; width:100px;']) ?>
+							<div class='col-md-4 col-sm-6 col-xs-12'>
+								<div class="form-group">
+									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Save Declaration', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; ']) ?>
 								</div>
 							</div>
 
@@ -180,6 +182,32 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 </div>
+<!--<div class="modal fade" id="modal-default">
+	<div class="modal-dialog">
+		<div class="modal-content payment-modal">
+
+		</div>
+		 /.modal-content
+	</div>
+	 /.modal-dialog
+</div>-->
+<!--<script>
+
+	$("document").ready(function () {
+		$(document).on('click', '.new_claimant_party', function (e) {
+			$.ajax({
+				type: 'POST',
+				cache: false,
+				async: false,
+				url: '<?= Yii::$app->homeUrl; ?>inpayment/in-payment/ajax-new-party',
+				success: function (data) {
+					$(".payment-modal").html(data);
+				}
+			});
+
+		});
+	});
+</script>-->
 
 
 
