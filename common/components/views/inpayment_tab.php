@@ -51,4 +51,10 @@ use yii\helpers\Url;
         <li role="presentation" class="<?= $step == 7 ? 'active' : '' ?>">
             <?= Html::a('Item', ['item', 'id' => $id], ['class' => 'step-links']) ?>
         </li>
+        <li role="presentation" class="<?= $step == 8 ? 'active' : '' ?>">
+            <?= Html::a('CPC', ['', 'id' => $id], ['class' => 'step-links']) ?>
+        </li>
+        <li role="presentation" class="<?= $step == 9 ? 'active' : '' ?>">
+            <?= Html::a('Summary', ['summary', 'id' => $id], ['class' => 'step-links']) ?>
+        </li>
 </ul>

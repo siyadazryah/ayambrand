@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $header_id
  * @property int $item_id
+ * @property string $description
  * @property int $hs_id
  * @property string $item_no
  * @property int $dangerous_goods
@@ -45,23 +46,22 @@ use Yii;
  * @property string $DOU
  * @property int $status
  */
-class Item extends \yii\db\ActiveRecord
-{
+class Item extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'item';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['header_id', 'item_id', 'hs_id', 'dangerous_goods', 'country_origin', 'unbranded', 'outer_pack_unit', 'in_pack_unit', 'inner_pack_unit', 'inmost_pack_unit', 'item_invoice', 'total_dutiable_unit', 'hs_qty_unit', 'preferential_code', 'marking', 'CB', 'UB', 'status'], 'integer'],
+            [['description'], 'string'],
             [['item_no', 'outer_pack_qty', 'in_pack_qty', 'inner_pack_qty', 'inmost_pack_qty', 'cif_fob_value', 'total_dutiable_qty', 'hs_qty', 'gst_amount', 'excise_duty', 'customs_duty'], 'number'],
             [['DOC', 'DOU'], 'safe'],
             [['model', 'hawb_obl', 'current_lot', 'previous_lot'], 'string', 'max' => 200],
@@ -72,14 +72,14 @@ class Item extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'header_id' => 'Header ID',
             'item_id' => 'Item ID',
             'hs_id' => 'Hs ID',
             'item_no' => 'Item No',
+            'description' => 'Description',
             'dangerous_goods' => 'Dangerous Goods',
             'country_origin' => 'Country Origin',
             'unbranded' => 'Unbranded',
@@ -114,4 +114,12 @@ class Item extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHeader() {
+        return $this->hasOne(Header::className(), ['id' => 'header_id']);
+    }
+
 }

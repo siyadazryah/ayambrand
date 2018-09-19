@@ -16,6 +16,7 @@ use common\models\InTrans;
 use common\models\RefDocument;
 use common\models\Invoice;
 use common\models\Item;
+use common\models\Summary;
 
 /**
  * LicencingMasterController implements the CRUD actions for LicencingMaster model.
@@ -210,16 +211,55 @@ class InPaymentController extends Controller {
     }
 
     public function actionItem($id) {
-        $model = Item::find()->where(['header_id' => $id])->one();
-        if (empty($model)) {
-            $model = new Item();
-        }
+        $model = new Item();
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
             $model->header_id = $id;
             $model->save();
             return $this->redirect(['item', 'id' => $id]);
         } else {
             return $this->render('item', [
+                        'model' => $model,
+                        'id' => $id,
+            ]);
+        }
+    }
+
+    public function actionItemSummary($id) {
+        $searchModel = new \common\models\ItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('item_summary', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'id' => $id,
+        ]);
+    }
+
+    public function actionItemDelete($item_id) {
+        $model = Item::findOne($item_id);
+        $header = $model->header_id;
+        $model->delete();
+        return $this->redirect(['item', 'id' => $header]);
+    }
+
+    public function actionSummary($id) {
+        $query = Item::find();
+        $query->where(['status' => 1, 'header_id' => $id]);
+        $model = new Summary();
+        $model->no_of_items = $query->count();
+        $model->cif_fob_value = $query->sum('cif_fob_value');
+        $model->total_outer_pack = $query->sum('outer_pack_qty');
+        $model->total_gst_amount = $query->sum('gst_amount');
+        $model->excise_duty_amount = $query->sum('excise_duty');
+        $model->customs_duty_amount = $query->sum('customs_duty');
+        $model->total_gross_weight = Summary::findGross($id);
+//        $query->sum('amount');
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
+            $model->header_id = $id;
+            $model->save();
+            return $this->redirect(['summary', 'id' => $id]);
+        } else {
+            return $this->render('summary', [
                         'model' => $model,
                         'id' => $id,
             ]);
@@ -328,6 +368,7 @@ class InPaymentController extends Controller {
             }
         }
     }
+
     public function actionFindItem() {
         if (Yii::$app->request->isAjax) {
 
@@ -340,6 +381,20 @@ class InPaymentController extends Controller {
                 if ($results)
                     $values = $this->renderPartial('_item_master', ['results' => $results, 'dropdown' => $dropdown]);
                 return $values;
+            }
+        }
+    }
+
+    public function actionItemMaster() {
+        if (Yii::$app->request->isAjax) {
+
+            $keyword = $_POST['id'];
+
+            if ($keyword != '' || !empty($keyword)) {
+                $results = \common\models\ItemMaster::find()->where(['status' => 1, 'code' => $keyword])->one();
+                $country = \common\models\Country::findOne($results->country_of_orgin)->name;
+                echo json_encode(['msg' => 'success', 'description' => $results->description, 'id' => $results->id, 'country_of_orgin' => $country, 'brand' => $results->brand, 'code' => $results->code]);
+                exit;
             }
         }
     }

@@ -26,26 +26,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <h3 class="heading">Item</h3>
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#">Item Details</a></li>
+                                <li><?= Html::a('Item Summary', ['item-summary', 'id' => $id]) ?></li>
+                            </ul>
+
                             <?php $form = ActiveForm::begin(); ?>
                             <div class="row">
-                                <input type="hidden" id="item-item_id" class="form-control itemcode_field" name="Item[item_id]" value= "">
+                                <?php
+                                if (!empty($model->item_id)) {
+                                    $declarant = \common\models\ItemMaster::findone($model->item_id);
+                                    $country = common\models\Country::findOne($declarant->country_of_orgin)->name;
+                                }
+                                ?>
+                                <input type="hidden" id="item-item_id" class="form-control itemcode_field" name="Item[item_id]" value= "<?= !empty($model->item_id) ? $model->item_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="item-item_code">Inhouse Item Code</label>
-                                    <input type="text" id="item-item_code" class="form-control" value= "" autocomplete="off">
+                                    <input type="text" id="item-item_code" class="form-control" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
                                     <div class="search-keyword-dropdown search-keyword-item_code"></div>
                                 </div>
 
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
-                                    <label class="control-label" for="party-declarant_id">Description</label>
-                                    <textarea id="item-description" class="form-control itemcode_field" ></textarea>
+                                    <?= $form->field($model, 'description')->textarea(['rows' => '3']) ?>
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="party-declarant_id">Country Of Origin</label>
-                                    <input type="text" id="item-country_origin" class="form-control itemcode_field" readonly="readonly" name="country_origin" value= "" autocomplete="off">
+                                    <input type="text" id="item-country_origin" class="form-control itemcode_field" readonly="readonly" name="country_origin" value= "<?= !empty($declarant->country_of_orgin) ? $declarant->country_of_orgin : '' ?>">
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="party-declarant_id">Brand</label>
-                                    <input type="text" id="item-brand" class="form-control itemcode_field" readonly="readonly" name="brand" value= "" autocomplete="off">
+                                    <input type="text" id="item-brand" class="form-control itemcode_field" readonly="readonly" name="brand" value= "<?= !empty($declarant->brand) ? $declarant->brand : '' ?>">
                                 </div>
                             </div>
                             <div class="row">
@@ -76,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row separation_item">
                                 <div class='col-md-6'> 
                                     <span>Packing Description</span>
                                     <div class="row">
@@ -124,15 +134,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <input type="text" id="item-unit_price" class="form-control" name="Item[unit_price]">
                                             </div>
                                         </div>
+                                        <div class='col-md-2 col-sm-6 col-xs-12 left_padd'>  
+                                            <label class="control-label" for="item-currency_list"></label>
+                                            <button type="button" class="btn-dropbox" data-toggle="modal" data-target="#currencyModal">Currency</button>
+                                        </div>
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>   
                                             <?= $form->field($model, 'cif_fob_value')->textInput(['maxlength' => true]) ?>
+                                        </div>
+                                        <div class='col-md-2 col-sm-6 col-xs-12 left_padd'>  
+                                            <label class="control-label" for="item-unit_price"></label>
+                                            <button type="button" class="btn-primary" data-toggle="modal" data-target="#myModal">Calculate</button>
                                         </div>
                                     </div>
                                 </div>
 
 
                             </div>
-                            <div class="row">
+                            <div class="row separation_item">
                                 <div class='col-md-6'> 
                                     <span>Item Quantity</span>
                                     <div class="row">
@@ -156,12 +174,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <span>Bill of Landing/Airway Bill</span>
                                     <div class="row">
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>   
-                                           <?= $form->field($model, 'hawb_obl')->textInput(['maxlength' => true]) ?>
+                                            <?= $form->field($model, 'hawb_obl')->textInput(['maxlength' => true]) ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row separation_item">
                                 <div class='col-md-6'> 
                                     <span>Tariff</span>
                                     <div class="row">
@@ -186,13 +204,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <span>Lot Identification</span>
                                     <div class="row">
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>   
-                                           <?= $form->field($model, 'current_lot')->textInput(['maxlength' => true]) ?>
+                                            <?= $form->field($model, 'current_lot')->textInput(['maxlength' => true]) ?>
                                         </div>
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>   
-                                           <?= $form->field($model, 'previous_lot')->textInput(['maxlength' => true]) ?>
+                                            <?= $form->field($model, 'previous_lot')->textInput(['maxlength' => true]) ?>
                                         </div>
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>   
-                                           <?= $form->field($model, 'marking')->textInput(['maxlength' => true]) ?>
+                                            <?= $form->field($model, 'marking')->textInput(['maxlength' => true]) ?>
                                         </div>
                                     </div>
                                 </div>
@@ -214,61 +232,87 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<script>
-    jQuery('#cargo-release_code').on('keyup', function (e) {
-        if ($(this).val() === "") {
-            $('.release_field').val('');
-        } else {
-            locationdropdown($(this).val(), 'search-release', 'search-keyword-release_code', 'release_field');
-        }
-    });
-    $('body').on('click', '.search-release', function () {
-        var id = $(this).attr('id');
-        findlocation(id, 'cargo-release_');
-    });
-    jQuery('#cargo-receipt_code').on('keyup', function (e) {
-        if ($(this).val() === "") {
-            $('.receipt_field').val('');
-        } else {
-            locationdropdown($(this).val(), 'search-receipt', 'search-keyword-receipt_code', 'release_field');
-        }
-    });
-    $('body').on('click', '.search-receipt', function () {
-        var id = $(this).attr('id');
-        findlocation(id, 'cargo-receipt_');
-    });
-    /********************/
-    function findlocation(id, dropdown) {
-        jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-location',
-            type: "POST",
-            data: {id: id},
-            success: function (data) {
-                var $data = JSON.parse(data);
-                if ($data.msg === "success") {
-                    $('#' + dropdown + 'id').val($data.id);
-                    $('#' + dropdown + 'location').val($data.location_name);
-                    $('#' + dropdown + 'code').val($data.location_code);
-                    jQuery('.search-keyword-dropdown').html('');
-                }
+<div class="modal fade item_calculator" id="myModal">
+    <div class="modal-dialog item_calculator_modal">
+        <div class="modal-content">
 
-            }
-        });
-    }
-    function locationdropdown(keyword, dropdown, searchplace, emptyfield) {
-        jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-locationkeyword',
-            type: "POST",
-            data: {keyword: keyword, dropdown: dropdown},
-            success: function (data) {
-                if (data === '') {
-                    $('.' + emptyfield).val('');
-                } else {
-                    jQuery('.' + searchplace).html(data);
-                }
-            },
-        });
-    }
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">CIF/FOB Calculator</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <td>Invoice No</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>No Of Unit</td>
+                        <td><input type="text" name="no_of_unit" class="item_no_unit"></td>
+                    </tr>
+                    <tr>
+                        <td>Unit Price</td>
+                        <td><input type="text" name="unit_price" class="item_unit_price"></td>
+                    </tr>
+                </table>
+                <button type="button" class="btn-success item_find_calculation">Calculate</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="currencyModal">
+    <div class="modal-dialog item_calculator_modal">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Help Menu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <ul>
+                    <li><label>USD</label>:<label>1.355</label>:<label>Dollar</label></li>
+                    <li><label>USD</label>:<label>1.355</label>:<label>Dollar</label></li>
+                    <li><label>USD</label>:<label>1.355</label>:<label>Dollar</label></li>
+                    <li><label>USD</label>:<label>1.355</label>:<label>Dollar</label></li>
+                </ul>
+<!--                <table class="table">
+                    <tr>
+                        <td>Invoice No</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>No Of Unit</td>
+                        <td><input type="text" name="no_of_unit" class="item_no_unit"></td>
+                    </tr>
+                    <tr>
+                        <td>Unit Price</td>
+                        <td><input type="text" name="unit_price" class="item_unit_price"></td>
+                    </tr>
+                </table>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--item-cif_fob_value-->
+<script>
+    $('.item_find_calculation').on('click', function () {
+        var unit = $('.item_no_unit').val();
+        var price = $('.item_unit_price').val();
+        var total = parseFloat(unit) * parseFloat(price);
+        $('#item-cif_fob_value').val(total);
+        $('.item_no_unit').val('');
+        $('.item_unit_price').val('');
+        $('.item_calculator').modal('toggle');
+    });
 </script>
 
 

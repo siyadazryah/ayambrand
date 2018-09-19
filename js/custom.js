@@ -73,11 +73,11 @@ $(document).ready(function () {
             success: function (data) {
                 var $data = JSON.parse(data);
                 if ($data.msg === "success") {
-                    $('#' + dropdown + 'id').val($data.id);
-                    $('#' + dropdown + 'name1').val($data.name1);
-                    $('#' + dropdown + 'name2').val($data.name1);
-                    $('#' + dropdown + 'cruei').val($data.cruei);
-                    $('#' + dropdown + 'code').val($data.code);
+                    $('#item-item_id').val($data.id);
+                    $('#item-item_code').val($data.code);
+                    $('#item-description').val($data.description);
+                    $('#item-country_origin').val($data.country_of_orgin);
+                    $('#item-brand').val($data.brand);
                     jQuery('.search-keyword-item_code').html('');
                 }
 

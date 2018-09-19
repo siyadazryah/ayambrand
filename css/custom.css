@@ -593,3 +593,10 @@ input[type="file"] {
 .doc-file-name:hover{
 	color: #222d32;
 }
+.separation_item{
+    border-top: 1px solid #e4dfdf;
+    padding-top: 30px;
+}
+.item_calculator_modal{
+    width: 405px;
+}
