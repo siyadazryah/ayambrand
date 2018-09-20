@@ -577,8 +577,11 @@ input[type="file"] {
 #container_details{
 	display: none;
 }
+.doc-file-div{
+    display: block;
+}
 .doc-file-name{
-	display: block;
+	/*display: block;*/
 	width: 100%;
 	background: transparent;
 	border: 1px solid #dcdcdc;

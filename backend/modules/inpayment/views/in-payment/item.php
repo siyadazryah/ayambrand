@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ?>
                                 <input type="hidden" id="item-item_id" class="form-control itemcode_field" name="Item[item_id]" value= "<?= !empty($model->item_id) ? $model->item_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
-                                    <label class="control-label" for="item-item_code">Inhouse Item Code</label>
+                                    <label class="control-label" for="item-item_code">Inhouse Item Code<span class="caret"></span></label>
                                     <input type="text" id="item-item_code" class="form-control" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
                                     <div class="search-keyword-dropdown search-keyword-item_code"></div>
                                 </div>

@@ -153,10 +153,12 @@ class InPaymentController extends Controller {
     }
 
     public function actionInTrans($id) {
+        $header = $this->findModel($id);
         $model = InTrans::find()->where(['header_id' => $id])->one();
         if (empty($model)) {
             $model = new InTrans();
         }
+        $model->mode = $header->inward_transport_mode;
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
             $model->header_id = $id;
             $model->save();
@@ -191,6 +193,13 @@ class InPaymentController extends Controller {
                         'documents' => $documents,
             ]);
         }
+    }
+
+    public function actionDocument($id) {
+        $doc = RefDocument::findOne($id);
+        return $this->render('doc_view', [
+                    'doc' => $doc,
+        ]);
     }
 
     public function actionInvoice($id) {

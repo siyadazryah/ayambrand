@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="invoice-manufacturer_id" class="form-control manufacturer_field" name="Invoice[manufacturer_id]" value= "<?= !empty($model->manufacturer_id) ? $model->manufacturer_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-manufacture">Code</label>
+									<label class="control-label" for="invoice-manufacture">Code<span class="caret"></span></label>
 									<input type="text" id="invoice-manufacturer_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-manufacturer"></div>
 								</div>

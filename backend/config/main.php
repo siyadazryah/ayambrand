@@ -31,6 +31,9 @@ return [
         'masters' => [
             'class' => 'backend\modules\masters\Module',
         ],
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+        ],
     ],
     'components' => [
         'request' => [

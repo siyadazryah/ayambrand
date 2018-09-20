@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							<span class="main-title-span">Transport Details</span>
 							<div class="row row-padng-top">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'mode')->dropDownList(ArrayHelper::map(common\models\Mode::find()->all(), 'id', 'name'), ['prompt' => 'select']) ?>
+									<?= $form->field($model, 'mode')->dropDownList(['1' => 'Sea', '2' => 'Road', '3' => 'Air'], array("disabled" => 'disabled')) ?>
 
 
 								</div>
@@ -55,13 +55,13 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="intrans_id" class="form-control location_field" name="InTrans[loading_port]" value= "<?= !empty($model->loading_port) ? $model->loading_port : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="intrans_code">Code</label>
+									<label class="control-label" for="intrans_code">Loading Port<span class="caret"></span></label>
 									<input type="text" id="intrans_code" class="form-control " name="location" value= "<?= !empty($declarant->location_code) ? $declarant->location_code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-trans_location_code"></div>
 								</div>
 
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-declarant_id">Location</label>
+									<label class="control-label" for="party-declarant_id"></label>
 									<input type="text" id="intrans_location" class="form-control location_field" name="name1" readonly="readonly" value= "<?= !empty($declarant->location_name) ? $declarant->location_name : '' ?>">
 								</div>
 

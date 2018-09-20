@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="party-declarant_id" class="form-control declarant_field" name="Party[declarant_id]" value= "<?= !empty($model->declarant_id) ? $model->declarant_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-declarant_id">Code</label>
+									<label class="control-label" for="party-declarant_id">Code<span class="caret"></span></label>
 									<input type="text" id="party-declarant_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-declarant"></div>
 								</div>
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="party-importer_id" class="form-control importer_field" name="Party[importer_id]" value= "<?= !empty($model->importer_id) ? $model->importer_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-importer_id">Code</label>
+									<label class="control-label" for="party-importer_id">Code<span class="caret"></span></label>
 									<input type="text" id="party-importer_code" class="form-control" name="code1" value= "<?= !empty($importer->code) ? $importer->code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-importer"></div>
 								</div>
@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="party-frieght_forwarder_id" class="form-control frieght_field" name="Party[frieght_forwarder_id]" value= "<?= !empty($model->frieght_forwarder_id) ? $model->frieght_forwarder_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-importer_id">Code</label>
+									<label class="control-label" for="party-importer_id">Code<span class="caret"></span></label>
 									<input type="text" id="party-frieght_forwarder_code" class="form-control" name="code1" value= "<?= !empty($frieght->code) ? $frieght->code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-frieght_forwarder"></div>
 								</div>
@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="party-inward_agent_id" class="form-control inward_field" name="Party[inward_agent_id]" value= "<?= !empty($model->inward_agent_id) ? $model->inward_agent_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-inward_agent_id">Code</label>
+									<label class="control-label" for="party-inward_agent_id">Code<span class="caret"></span></label>
 									<input type="text" id="party-inward_agent_code" class="form-control" name="code1" value= "<?= !empty($inward_agent->code) ? $inward_agent->code : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-inward_agent"></div>
 								</div>
@@ -144,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								?>
 								<input type="hidden" id="party-claimant_party_id" class="form-control claimant_field" name="Party[claimant_party_id]" value= "<?= !empty($model->claimant_party_id) ? $model->claimant_party_id : '' ?>">
 								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="party-claimant_party_id">Claimant Id</label>
+									<label class="control-label" for="party-claimant_party_id">Claimant Id<span class="caret"></span></label>
 									<input type="text" id="party-claimant_party_claimant_id" class="form-control" name="claimant_id" value= "<?= !empty($claimant->claimant_id) ? $claimant->claimant_id : '' ?>" autocomplete="off">
 									<div class="search-keyword-dropdown search-keyword-claimant_party"></div>
 								</div>
