@@ -20,7 +20,7 @@ class InvoiceSearch extends Invoice
         return [
             [['id', 'header_id', 'term_type', 'ad_valorem_indicator', 'duty_rate_indicator', 'importer_id', 'manufacturer_id', 'CB', 'UB', 'status'], 'integer'],
             [['invoice_no', 'invoice_date', 'DOC', 'DOU'], 'safe'],
-            [['invoice_amount', 'freight_amount', 'total_amount', 'other_tax_amount', 'freight_charge', 'insurance_charge'], 'number'],
+            [['invoice_amount', 'freight_amount', 'total_amount', 'other_tax_amount', 'freight_charge', 'insurance_charge', 'gst_amount'], 'number'],
         ];
     }
 
@@ -74,6 +74,7 @@ class InvoiceSearch extends Invoice
             'other_tax_amount' => $this->other_tax_amount,
             'freight_charge' => $this->freight_charge,
             'insurance_charge' => $this->insurance_charge,
+            'gst_amount' => $this->gst_amount,
             'CB' => $this->CB,
             'UB' => $this->UB,
             'DOC' => $this->DOC,

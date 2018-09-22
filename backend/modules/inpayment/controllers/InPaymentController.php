@@ -220,6 +220,7 @@ class InPaymentController extends Controller {
     public function actionInvoiceSummary($id) {
         $searchModel = new \common\models\InvoiceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['header_id' => $id]);
 
         return $this->render('invoice_summary', [
                     'searchModel' => $searchModel,
@@ -245,6 +246,7 @@ class InPaymentController extends Controller {
     public function actionItemSummary($id) {
         $searchModel = new \common\models\ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['header_id' => $id]);
 
         return $this->render('item_summary', [
                     'searchModel' => $searchModel,
@@ -257,13 +259,17 @@ class InPaymentController extends Controller {
         $model = Item::findOne($item_id);
         $header = $model->header_id;
         $model->delete();
-        return $this->redirect(['item', 'id' => $header]);
+        return $this->redirect(['item-summary', 'id' => $header]);
     }
 
     public function actionSummary($id) {
         $query = Item::find();
         $query->where(['status' => 1, 'header_id' => $id]);
-        $model = new Summary();
+        $model = Summary::find()->where(['header_id' => $id])->one();
+        if (empty($model)) {
+            $model = new Summary();
+        }
+        
         $model->no_of_items = $query->count();
         $model->cif_fob_value = $query->sum('cif_fob_value');
         $model->total_outer_pack = $query->sum('outer_pack_qty');
@@ -313,169 +319,12 @@ class InPaymentController extends Controller {
         return $this->redirect(['cargo', 'id' => $header]);
     }
 
-    public function actionSearchKeyword() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['keyword'];
-            $dropdown = $_POST['dropdown'];
-            $type = $_POST['type'];
-            $values = "";
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\Agents::find()->select('code')->where(['status' => 1, 'agent_type' => $type])->andWhere((['like', 'code', $keyword]))->all();
-                if ($results)
-                    $values = $this->renderPartial('_agent_search', ['results' => $results, 'dropdown' => $dropdown]);
-                return $values;
-            }
-        }
-    }
-
-    public function actionSearchAgent() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['id'];
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\Agents::find()->where(['status' => 1, 'code' => $keyword])->one();
-                echo json_encode(['msg' => 'success', 'name1' => $results->name1, 'name2' => $results->name2, 'cruei' => $results->cr_uei, 'id' => $results->id, 'code' => $results->code]);
-                exit;
-            }
-        }
-    }
-
-    public function actionSearchClaimantkeyword() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['keyword'];
-            $values = "";
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\ClaimantParty::find()->where(['status' => 1])->andWhere((['like', 'claimant_id', $keyword]))->all();
-                if ($results)
-                    $values = $this->renderPartial('_claimant_search', ['results' => $results]);
-                return $values;
-            }
-        }
-    }
-
-    public function actionSearchClaimant() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['id'];
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\ClaimantParty::find()->where(['status' => 1, 'claimant_id' => $keyword])->one();
-                echo json_encode(['msg' => 'success', 'name1' => $results->name1, 'name2' => $results->name2, 'cruei' => $results->cr_uei, 'id' => $results->id, 'claimant_name' => $results->claimant_name, 'claimant_id' => $results->claimant_id]);
-                exit;
-            }
-        }
-    }
-
-    public function actionSearchLocationkeyword() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['keyword'];
-            $dropdown = $_POST['dropdown'];
-            $values = "";
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\Location::find()->select('location_code')->where(['status' => 1])->andWhere((['like', 'location_code', $keyword]))->all();
-                if ($results)
-                    $values = $this->renderPartial('_location_search', ['results' => $results, 'dropdown' => $dropdown]);
-                return $values;
-            }
-        }
-    }
-
-    public function actionFindItem() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['keyword'];
-            $dropdown = $_POST['dropdown'];
-            $values = "";
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\ItemMaster::find()->select('code')->where(['status' => 1])->andWhere((['like', 'code', $keyword]))->all();
-                if ($results)
-                    $values = $this->renderPartial('_item_master', ['results' => $results, 'dropdown' => $dropdown]);
-                return $values;
-            }
-        }
-    }
-
-    public function actionItemMaster() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['id'];
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\ItemMaster::find()->where(['status' => 1, 'code' => $keyword])->one();
-                $country = \common\models\Country::findOne($results->country_of_orgin)->name;
-                echo json_encode(['msg' => 'success', 'description' => $results->description, 'id' => $results->id, 'country_of_orgin' => $country, 'brand' => $results->brand, 'code' => $results->code]);
-                exit;
-            }
-        }
-    }
-
-    public function actionSearchLocation() {
-        if (Yii::$app->request->isAjax) {
-
-            $keyword = $_POST['id'];
-
-            if ($keyword != '' || !empty($keyword)) {
-                $results = \common\models\Location::find()->where(['status' => 1, 'location_code' => $keyword])->one();
-                echo json_encode(['msg' => 'success', 'location_name' => $results->location_name, 'id' => $results->id, 'location_code' => $results->location_code]);
-                exit;
-            }
-        }
-    }
-
-    public function actionMoreContainer() {
-        if (Yii::$app->request->isAjax) {
-            $keyword = $_POST['keyword'];
-            $sizes = \common\models\Size::find()->where(['status' => 1])->all();
-            $size_field = '';
-            if ($sizes) {
-                foreach ($sizes as $size) {
-                    $size_field .= "<option value = " . $size->id . ">" . $size->size_name . "</option>";
-                }
-            }
-            $field = '<tr id="td_' . $keyword . '"><td><input type="text"class="form-control" name="ContainerDetails[container_no][]"></td>
-                    <td><select class="form-control" name="ContainerDetails[size_type][]">
-                            <option >Select</option>' . $size_field . '</select></td>
-                    <td><input type="text" class="form-control" name="ContainerDetails[weight][]"></td>
-                    <td><input type="text" class="form-control" name="ContainerDetails[seal_no][]"></td>
-                    <td><a href="javascript:void(0)" class = "remScnt" id="' . $keyword . '">Remove</a></td>
-                    </tr>';
-            echo json_encode(['msg' => 'success', 'content' => $field]);
-            exit;
-        }
-    }
-
-    public function actionTermName() {
-        if (Yii::$app->request->isAjax) {
-            $val = $_POST['val'];
-            $term = \common\models\TermType::findOne($val);
-            echo json_encode(['msg' => 'success', 'name' => $term->term_name, 'freight' => $term->freight_charge, 'insurance' => $term->insurance_charge]);
-            exit;
-        }
-    }
-
     public function actionAjaxNewParty() {
         if (Yii::$app->request->isAjax) {
             $data = $this->renderPartial('_new_party', [
             ]);
         }
         return $data;
-    }
-
-    public function actionExchangeRate() {
-        if (Yii::$app->request->isAjax) {
-            $val = $_POST['val'];
-            $term = \common\models\Currency::findOne($val);
-            echo json_encode(['msg' => 'success', 'rate' => $term->exchange_rate]);
-            exit;
-        }
     }
 
     protected function findModel($id) {

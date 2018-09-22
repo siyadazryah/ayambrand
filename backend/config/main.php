@@ -28,6 +28,12 @@ return [
         'inpayment' => [
             'class' => 'backend\modules\inpayment\Module',
         ],
+        'outward' => [
+            'class' => 'backend\modules\outward\Module',
+        ],
+        'in-non-payment' => [
+            'class' => 'backend\modules\in-non-payment\Module',
+        ],
         'masters' => [
             'class' => 'backend\modules\masters\Module',
         ],

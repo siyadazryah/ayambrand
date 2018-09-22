@@ -32,56 +32,56 @@ use Yii;
  */
 class Header extends \yii\db\ActiveRecord {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function tableName() {
-		return 'header';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName() {
+        return 'header';
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function rules() {
-		return [
-			[['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'declaration_type'], 'required'],
-			[['declaration_type', 'cargo_pack_type', 'inward_transport_mode', 'bg_indicator', 'supply_indicator', 'ref_documents', 'CB', 'UB', 'status'], 'integer'],
-			[['DOC', 'DOU'], 'safe'],
-			[['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'previous_permit_no', 'reference1', 'reference2', 'reference3'], 'string', 'max' => 200],
+    /**
+     * {@inheritdoc}
+     */
+    public function rules() {
+        return [
+            [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'declaration_type'], 'required'],
+            [['declaration_type', 'cargo_pack_type', 'inward_transport_mode', 'bg_indicator', 'supply_indicator', 'ref_documents', 'CB', 'UB', 'status'], 'integer'],
+            [['DOC', 'DOU'], 'safe'],
+            [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'previous_permit_no', 'reference1', 'reference2', 'reference3'], 'string', 'max' => 200],
 //            [['import_data'], 'string', 'max' => 100],
-		    [['import_data'], 'required', 'on' => 'create'],
-			[['import_data'], 'file', 'extensions' => 'png, jpg, jpeg, gif, bmp, pdf, doc, docx'],
-		];
-	}
+            [['import_data'], 'required', 'on' => 'create'],
+            [['import_data'], 'file', 'extensions' => 'png, jpg, jpeg, gif, bmp, pdf, doc, docx'],
+        ];
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function attributeLabels() {
-		return [
-		    'id' => 'ID',
-		    'tradenet_mailbox_id' => 'Tradenet Mailbox ID',
-		    'declarant_name' => 'Declarant Name',
-		    'cr_uei_no' => 'Cr Uei No',
-		    'job_number' => 'Job Number',
-		    'message_type' => 'Message Type',
-		    'declaration_type' => 'Declaration Type',
-		    'previous_permit_no' => 'Previous Permit No',
-		    'import_data' => 'Import Containers & items form previous permit',
-		    'cargo_pack_type' => 'Cargo Pack Type',
-		    'inward_transport_mode' => 'Inward Transport Mode',
-		    'bg_indicator' => 'Bg Indicator',
-		    'supply_indicator' => 'Supply Indicator',
-		    'ref_documents' => 'Ref Documents',
-		    'reference1' => 'Reference1',
-		    'reference2' => 'Reference2',
-		    'reference3' => 'Reference3',
-		    'CB' => 'Cb',
-		    'UB' => 'Ub',
-		    'DOC' => 'Doc',
-		    'DOU' => 'Dou',
-		    'status' => 'Status',
-		];
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'tradenet_mailbox_id' => 'Tradenet Mailbox ID',
+            'declarant_name' => 'Declarant Name',
+            'cr_uei_no' => 'Cr Uei No',
+            'job_number' => 'Job Number',
+            'message_type' => 'Message Type',
+            'declaration_type' => 'Declaration Type',
+            'previous_permit_no' => 'Previous Permit No',
+            'import_data' => 'Import Containers & items form previous permit',
+            'cargo_pack_type' => 'Cargo Pack Type',
+            'inward_transport_mode' => 'Inward Transport Mode',
+            'bg_indicator' => 'Bg Indicator',
+            'supply_indicator' => 'Supply Indicator',
+            'ref_documents' => 'Ref Documents',
+            'reference1' => 'Reference1',
+            'reference2' => 'Reference2',
+            'reference3' => 'Reference3',
+            'CB' => 'Cb',
+            'UB' => 'Ub',
+            'DOC' => 'Doc',
+            'DOU' => 'Dou',
+            'status' => 'Status',
+        ];
+    }
 
 }

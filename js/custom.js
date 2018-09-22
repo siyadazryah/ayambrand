@@ -5,7 +5,7 @@ $(document).ready(function () {
         var val = $(this).val();
         if (val !== 'undefined' && val !== '') {
             jQuery.ajax({
-                url: homeUrl + 'inpayment/in-payment/term-name',
+                url: homeUrl + 'ajax/term-name',
                 type: "POST",
                 data: {val: val},
                 success: function (data) {
@@ -18,6 +18,24 @@ $(document).ready(function () {
             });
         }
     });
+    /*********outward invoice********/
+    $('#outwardinvoice-term_type').on('change', function () {
+        var val = $(this).val();
+        if (val !== 'undefined' && val !== '') {
+            jQuery.ajax({
+                url: homeUrl + 'ajax/term-name',
+                type: "POST",
+                data: {val: val},
+                success: function (data) {
+                    var $data = JSON.parse(data);
+                    $('#outwardinvoice-term_type_name').val($data.name);
+                    $('#outwardinvoice_freight').val($data.freight);
+                    $('#outwardinvoice_insurance').val($data.insurance);
+//                 $(data.content).appendTo('<tr>');
+                }
+            });
+        }
+    });
 
     /*****************/
 
@@ -25,14 +43,15 @@ $(document).ready(function () {
         $("#container_details").toggle('slow');
     });
     $('.more_container').on('click', function () {
+        var form = $(this).attr('attr_id');
         var i = $('#container_details_body tr').length + 1;
         var row = rowcheck(i);
 
 //        var i = $('#container_details_body tr').length + 1;
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/more-container',
+            url: homeUrl + 'ajax/more-container',
             type: "POST",
-            data: {keyword: i},
+            data: {keyword: i, form: form},
             success: function (data) {
                 var $data = JSON.parse(data);
                 $('#container_details tbody').append($data.content);
@@ -46,14 +65,15 @@ $(document).ready(function () {
     });
     /**************Item***********/
 
-    $('#item-item_code').on('keyup', function (e) {
+    $('.item-item_code').on('keyup', function (e) {
+        var attr = $(this).attr('attr_item');
         if ($(this).val() === "") {
             $('.itemcode_field').val('');
         } else {
             jQuery.ajax({
-                url: homeUrl + 'inpayment/in-payment/find-item',
+                url: homeUrl + 'ajax/find-item',
                 type: "POST",
-                data: {keyword: $(this).val(), dropdown: 'search-itemcode'},
+                data: {keyword: $(this).val(), dropdown: 'search-itemcode', attr: attr},
                 success: function (data) {
                     if (data === '') {
                         $('.itemcode_field').val('');
@@ -66,18 +86,19 @@ $(document).ready(function () {
     });
     $('body').on('click', '.search-itemcode', function () {
         var id = $(this).attr('id');
+        var attr = $(this).attr('attr_item');
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/item-master',
+            url: homeUrl + 'ajax/item-master',
             type: "POST",
             data: {id: id},
             success: function (data) {
                 var $data = JSON.parse(data);
                 if ($data.msg === "success") {
-                    $('#item-item_id').val($data.id);
-                    $('#item-item_code').val($data.code);
-                    $('#item-description').val($data.description);
-                    $('#item-country_origin').val($data.country_of_orgin);
-                    $('#item-brand').val($data.brand);
+                    $('#' + attr + '-item_id').val($data.id);
+                    $('#' + attr + '-item_code').val($data.code);
+                    $('#' + attr + '-description').val($data.description);
+                    $('#' + attr + '-country_origin').val($data.country_of_orgin);
+                    $('#' + attr + '-brand').val($data.brand);
                     jQuery('.search-keyword-item_code').html('');
                 }
 
@@ -153,7 +174,7 @@ $(document).ready(function () {
             $('.claimant_field').val('');
         } else {
             jQuery.ajax({
-                url: homeUrl + 'inpayment/in-payment/search-claimantkeyword',
+                url: homeUrl + 'ajax/search-claimantkeyword',
                 type: "POST",
                 data: {keyword: $(this).val()},
                 success: function (data) {
@@ -169,7 +190,7 @@ $(document).ready(function () {
     $('body').on('click', '.search-claimant', function () {
         var id = $(this).attr('id');
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-claimant',
+            url: homeUrl + 'ajax/search-claimant',
             type: "POST",
             data: {id: id},
             success: function (data) {
@@ -197,7 +218,7 @@ function rowcheck(i) {
 }
 function findagent(id, dropdown) {
     jQuery.ajax({
-        url: homeUrl + 'inpayment/in-payment/search-agent',
+        url: homeUrl + 'ajax/search-agent',
         type: "POST",
         data: {id: id},
         success: function (data) {
@@ -216,7 +237,7 @@ function findagent(id, dropdown) {
 }
 function partydropdown(keyword, dropdown, searchplace, type, emptyfield) {
     jQuery.ajax({
-        url: homeUrl + 'inpayment/in-payment/search-keyword',
+        url: homeUrl + 'ajax/search-keyword',
         type: "POST",
         data: {keyword: keyword, dropdown: dropdown, type: type},
         success: function (data) {

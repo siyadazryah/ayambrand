@@ -30,7 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="panel-body">
                 <?= common\components\InpaymentTabWidget::widget(['id' => $id, 'step' => 3]) ?>
-                <div class="panel-body"><div class="header-create">
+                <div class="panel-body">
+                    <div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">Cargo</h3>-->
                             <?php $form = ActiveForm::begin(); ?>
@@ -92,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= $form->field($model, 'container_detail')->fileInput(['class' => 'form-control'])->label('Upload Container Details (via Excel)') ?>
 
                                 </div>
-                               
+
                             </div>
                             <div class="appointment-service-create">
                                 <button type="button" class="primary add_container_details">Add more Container Details</button>
@@ -128,72 +129,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td>
                                             <td><input type="text" id="containerdetails-weight" class="form-control" name="ContainerDetails[weight][]"></td>
                                             <td><input type="text" id="containerdetails-seal_no" class="form-control" name="ContainerDetails[seal_no][]"></td>
-                                            <td><button type="button" class="button more_container" >Add More</button></td>
+                                            <td><button type="button" class="button more_container">Add More</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <?php if ($dataProvider->totalCount > 0) { ?>
-                                    <div class="box-body table-responsive">
-                                        <?php
-                                        $gridColumns = [
-                                            ['class' => 'yii\grid\SerialColumn'],
-//                                            'id',
-//                                            'header_id',
-//                                            'cargo_id',
-                                            'container_no',
-                                            [
-                                                'attribute' => 'size_type',
-                                                'filter' => ArrayHelper::map(Size::find()->all(), 'id', 'size_name'),
-                                                'value' => function($data) {
-                                                    return Size::findOne($data->size_type)->size_name;
-                                                }
-                                            ],
-                                            'weight',
-                                            'seal_no',
-                                            // 'CB',
-                                            // 'DOC',
-                                            // 'DOU',
-                                            // 'status',
-                                            ['class' => 'yii\grid\ActionColumn',
-                                                'template' => '{delete}',
-                                                'urlCreator' => function ($action, $model) {
 
-                                                    if ($action === 'delete') {
-                                                        $url = 'container-delete?id=' . $model->id;
-                                                        return $url;
-                                                    }
-//
-                                                }
-                                            ],
-                                        ];
-                                        $gridExport = [
-                                            'container_no',
-//                                            [
-//                                                'attribute' => 'size_type',
-//                                                'filter' => ArrayHelper::map(Size::find()->all(), 'id', 'size_name'),
-//                                                'value' => function($data) {
-//                                                    return Size::findOne($data->size_type)->size_name;
-//                                                }
-//                                            ],
-                                            'weight',
-                                            'seal_no',
-                                        ];
-                                        ?>
-                                        <?php
-                                        echo ExportMenu::widget([
-                                            'dataProvider' => $dataProvider,
-                                            'columns' => $gridExport
-                                        ]);
-
-                                        // You can choose to render your own GridView separately
-                                        echo \kartik\grid\GridView::widget([
-                                            'dataProvider' => $dataProvider,
-                                            'filterModel' => $searchModel,
-                                            'columns' => $gridColumns
-                                        ]);
-                                        ?>
-                                    </div>
-                                <?php } ?>
                             </div>
 
                             <div class='col-md-4 col-sm-6 col-xs-12'>
@@ -208,8 +148,73 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                 </div>
+                <?php if ($dataProvider->totalCount > 0) { ?>
+            <div class="box-body table-responsive">
+                <?php
+                $gridColumns = [
+                    ['class' => 'yii\grid\SerialColumn'],
+//                                            'id',
+//                                            'header_id',
+//                                            'cargo_id',
+                    'container_no',
+                    [
+                        'attribute' => 'size_type',
+                        'filter' => ArrayHelper::map(Size::find()->all(), 'id', 'size_name'),
+                        'value' => function($data) {
+                            return Size::findOne($data->size_type)->size_name;
+                        }
+                    ],
+                    'weight',
+                    'seal_no',
+                    // 'CB',
+                    // 'DOC',
+                    // 'DOU',
+                    // 'status',
+                    ['class' => 'yii\grid\ActionColumn',
+                        'template' => '{delete}',
+                        'urlCreator' => function ($action, $model) {
+
+                            if ($action === 'delete') {
+                                $url = 'container-delete?id=' . $model->id;
+                                return $url;
+                            }
+//
+                        }
+                    ],
+                ];
+                $gridExport = [
+                    'container_no',
+//                                            [
+//                                                'attribute' => 'size_type',
+//                                                'filter' => ArrayHelper::map(Size::find()->all(), 'id', 'size_name'),
+//                                                'value' => function($data) {
+//                                                    return Size::findOne($data->size_type)->size_name;
+//                                                }
+//                                            ],
+                    'weight',
+                    'seal_no',
+                ];
+                ?>
+                <?php
+                echo ExportMenu::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => $gridExport
+                ]);
+
+                // You can choose to render your own GridView separately
+                echo \kartik\grid\GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => $gridColumns
+                ]);
+                ?>
+            </div>
+        <?php } ?>
             </div>
         </div>
+    </div>
+    <div class="col-md-12">
+        
     </div>
 </div>
 <script>
@@ -238,7 +243,7 @@ $this->params['breadcrumbs'][] = $this->title;
     /********************/
     function findlocation(id, dropdown) {
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-location',
+            url: homeUrl + 'ajax/search-location',
             type: "POST",
             data: {id: id},
             success: function (data) {
@@ -255,7 +260,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     function locationdropdown(keyword, dropdown, searchplace, emptyfield) {
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-locationkeyword',
+            url: homeUrl + 'ajax/search-locationkeyword',
             type: "POST",
             data: {keyword: keyword, dropdown: dropdown},
             success: function (data) {

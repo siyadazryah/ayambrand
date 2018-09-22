@@ -10,13 +10,12 @@ use common\models\Header;
 /**
  * HeaderSearch represents the model behind the search form about `common\models\Header`.
  */
-class HeaderSearch extends Header
-{
+class HeaderSearch extends Header {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'declaration_type', 'cargo_pack_type', 'inward_transport_mode', 'bg_indicator', 'supply_indicator', 'ref_documents', 'CB', 'UB', 'status'], 'integer'],
             [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'previous_permit_no', 'import_data', 'reference1', 'reference2', 'reference3', 'DOC', 'DOU'], 'safe'],
@@ -26,8 +25,7 @@ class HeaderSearch extends Header
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class HeaderSearch extends Header
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Header::find();
 
         // add conditions that should always apply here
@@ -74,16 +71,17 @@ class HeaderSearch extends Header
         ]);
 
         $query->andFilterWhere(['like', 'tradenet_mailbox_id', $this->tradenet_mailbox_id])
-            ->andFilterWhere(['like', 'declarant_name', $this->declarant_name])
-            ->andFilterWhere(['like', 'cr_uei_no', $this->cr_uei_no])
-            ->andFilterWhere(['like', 'job_number', $this->job_number])
-            ->andFilterWhere(['like', 'message_type', $this->message_type])
-            ->andFilterWhere(['like', 'previous_permit_no', $this->previous_permit_no])
-            ->andFilterWhere(['like', 'import_data', $this->import_data])
-            ->andFilterWhere(['like', 'reference1', $this->reference1])
-            ->andFilterWhere(['like', 'reference2', $this->reference2])
-            ->andFilterWhere(['like', 'reference3', $this->reference3]);
+                ->andFilterWhere(['like', 'declarant_name', $this->declarant_name])
+                ->andFilterWhere(['like', 'cr_uei_no', $this->cr_uei_no])
+                ->andFilterWhere(['like', 'job_number', $this->job_number])
+                ->andFilterWhere(['like', 'message_type', $this->message_type])
+                ->andFilterWhere(['like', 'previous_permit_no', $this->previous_permit_no])
+                ->andFilterWhere(['like', 'import_data', $this->import_data])
+                ->andFilterWhere(['like', 'reference1', $this->reference1])
+                ->andFilterWhere(['like', 'reference2', $this->reference2])
+                ->andFilterWhere(['like', 'reference3', $this->reference3]);
 
         return $dataProvider;
     }
+
 }

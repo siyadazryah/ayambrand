@@ -10,13 +10,12 @@ use common\models\InTrans;
 /**
  * InTransSearch represents the model behind the search form about `common\models\InTrans`.
  */
-class InTransSearch extends InTrans
-{
+class InTransSearch extends InTrans {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'header_id', 'mode', 'loading_port', 'CB', 'UB', 'status'], 'integer'],
             [['arrival_date', 'coveyance_ref_no', 'transport_identifier', 'ocean_bill_landing_no', 'DOC', 'DOU'], 'safe'],
@@ -26,8 +25,7 @@ class InTransSearch extends InTrans
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class InTransSearch extends InTrans
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = InTrans::find();
 
         // add conditions that should always apply here
@@ -72,9 +69,10 @@ class InTransSearch extends InTrans
         ]);
 
         $query->andFilterWhere(['like', 'coveyance_ref_no', $this->coveyance_ref_no])
-            ->andFilterWhere(['like', 'transport_identifier', $this->transport_identifier])
-            ->andFilterWhere(['like', 'ocean_bill_landing_no', $this->ocean_bill_landing_no]);
+                ->andFilterWhere(['like', 'transport_identifier', $this->transport_identifier])
+                ->andFilterWhere(['like', 'ocean_bill_landing_no', $this->ocean_bill_landing_no]);
 
         return $dataProvider;
     }
+
 }

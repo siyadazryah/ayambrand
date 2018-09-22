@@ -105,6 +105,15 @@ $controler = Yii::$app->controller->id;
 							<?php
 						}
 						?>
+						<?php
+						if (Yii::$app->user->identity->post_id == 1 || Yii::$app->session['post']['masters'] == 1) {
+							?>
+							<li class="<?= $controler == 'outward' ? 'active' : '' ?>">
+								<?= Html::a('<i class="fa fa-money"></i> <span>Outward</span>', ['/outward/outward/index'], ['class' => '']) ?>
+							</li>
+							<?php
+						}
+						?>
 
 
 						<?php

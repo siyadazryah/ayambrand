@@ -22,6 +22,7 @@ use Yii;
  * @property string $other_tax_amount
  * @property string $freight_charge
  * @property string $insurance_charge
+ * @property string $gst_amount
  * @property int $CB
  * @property int $UB
  * @property string $DOC
@@ -45,7 +46,7 @@ class Invoice extends \yii\db\ActiveRecord {
             [['header_id', 'invoice_no'], 'required'],
             [['header_id', 'term_type', 'ad_valorem_indicator', 'duty_rate_indicator', 'importer_id', 'manufacturer_id', 'CB', 'UB', 'status'], 'integer'],
             [['invoice_date', 'DOC', 'DOU'], 'safe'],
-            [['invoice_amount', 'freight_amount', 'total_amount', 'other_tax_amount', 'freight_charge', 'insurance_charge'], 'number'],
+            [['invoice_amount', 'freight_amount', 'total_amount', 'other_tax_amount', 'freight_charge', 'insurance_charge', 'gst_amount'], 'number'],
             [['invoice_no'], 'string', 'max' => 200],
         ];
     }
@@ -70,6 +71,7 @@ class Invoice extends \yii\db\ActiveRecord {
             'other_tax_amount' => 'Other Tax Amount',
             'freight_charge' => 'Freight Charge',
             'insurance_charge' => 'Insurance Charge',
+            'gst_amount' => 'GST Amount',
             'CB' => 'C B',
             'UB' => 'U B',
             'DOC' => 'D O C',

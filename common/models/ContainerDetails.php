@@ -68,7 +68,7 @@ class ContainerDetails extends \yii\db\ActiveRecord {
             $container_model->size_type = Yii::$app->request->post()['ContainerDetails']['size_type'][$i];
             $container_model->weight = Yii::$app->request->post()['ContainerDetails']['weight'][$i];
             $container_model->seal_no = Yii::$app->request->post()['ContainerDetails']['seal_no'][$i];
-            $container_model->save();
+            Yii::$app->SetValues->Attributes($container_model) && $container_model->save();
         }
     }
 

@@ -19,235 +19,235 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-	<div class="col-md-12">
+    <div class="col-md-12">
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-			    <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-				<?= Html::a('<i class="fa-th-list"></i><span> Manage Header</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
+                <?= Html::a('<i class="fa-th-list"></i><span> Manage Header</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
-			</div>
-			<div class="panel-body">
-				<?= common\components\InpaymentTabWidget::widget(['id' => $id, 'step' => 6]) ?>
-				<div class="panel-body"><div class="header-create">
-						<div class="header-form form-inline">
-							<!--<h3 class="heading">Invoice</h3>-->
+            </div>
+            <div class="panel-body">
+                <?= common\components\InpaymentTabWidget::widget(['id' => $id, 'step' => 6]) ?>
+                <div class="panel-body"><div class="header-create">
+                        <div class="header-form form-inline">
+                            <!--<h3 class="heading">Invoice</h3>-->
                             <ul class="nav nav-pills">
                                 <li class="active"><a href="#">Invoice Details</a></li>
                                 <li><?= Html::a('Invoice Summary', ['invoice-summary', 'id' => $id]) ?></li>
                             </ul>
-							<?php $form = ActiveForm::begin(); ?>
-							<span class="main-title-span">Invoice Details</span>
-							<div class="row row-padng-top">
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'invoice_no')->textInput(['maxlength' => true]) ?>
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?=
-									$form->field($model, 'invoice_date')->widget(DatePicker::classname(), [
-									    'type' => DatePicker::TYPE_INPUT,
-									    'pluginOptions' => [
-										'autoclose' => true,
-										'format' => 'yyyy-mm-dd',
-								    ]])->label('Invoice Date');
-									?>
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'term_type')->dropDownList(ArrayHelper::map(common\models\TermType::find()->all(), 'id', 'code'), ['prompt' => 'select']) ?>
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-type_name"></label>
-									<input type="text" id="invoice-term_type_name" class="form-control" value= "" readonly="readonly">
-								</div>
-							</div>
-							<div class="row">
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-ad_valorem_indicator"></label>
-									<?= $form->field($model, 'ad_valorem_indicator')->checkbox(); ?>
+                            <?php $form = ActiveForm::begin(); ?>
+                            <span class="main-title-span">Invoice Details</span>
+                            <div class="row row-padng-top">
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?= $form->field($model, 'invoice_no')->textInput(['maxlength' => true]) ?>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?=
+                                    $form->field($model, 'invoice_date')->widget(DatePicker::classname(), [
+                                        'type' => DatePicker::TYPE_INPUT,
+                                        'pluginOptions' => [
+                                            'autoclose' => true,
+                                            'format' => 'yyyy-mm-dd',
+                                ]])->label('Invoice Date');
+                                    ?>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?= $form->field($model, 'term_type')->dropDownList(ArrayHelper::map(common\models\TermType::find()->all(), 'id', 'code'), ['prompt' => 'select']) ?>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-type_name"></label>
+                                    <input type="text" id="invoice-term_type_name" class="form-control" value= "" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-ad_valorem_indicator"></label>
+                                    <?= $form->field($model, 'ad_valorem_indicator')->checkbox(); ?>
 
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-duty_rate_indicator"></label>
-									<?= $form->field($model, 'duty_rate_indicator')->checkbox(); ?>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-duty_rate_indicator"></label>
+                                    <?= $form->field($model, 'duty_rate_indicator')->checkbox(); ?>
 
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'importer_id')->dropDownList(ArrayHelper::map(common\models\Agents::find()->where(['agent_type' => 2])->all(), 'id', 'name1'), ['prompt' => 'select']) ?>
-								</div>
-							</div>
-							<span class="main-title-span">Supplier Manufacture Party</span>
-							<div class="row row-padng-top">
-								<?php
-								if (!empty($model->manufacturer_id)) {
-									$declarant = Agents::findagent($model->manufacturer_id);
-								}
-								?>
-								<input type="hidden" id="invoice-manufacturer_id" class="form-control manufacturer_field" name="Invoice[manufacturer_id]" value= "<?= !empty($model->manufacturer_id) ? $model->manufacturer_id : '' ?>">
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-manufacture">Code<span class="caret"></span></label>
-									<input type="text" id="invoice-manufacturer_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
-									<div class="search-keyword-dropdown search-keyword-manufacturer"></div>
-								</div>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?= $form->field($model, 'importer_id')->dropDownList(ArrayHelper::map(common\models\Agents::find()->where(['agent_type' => 2])->all(), 'id', 'name1'), ['prompt' => 'select']) ?>
+                                </div>
+                            </div>
+                            <span class="main-title-span">Supplier Manufacture Party</span>
+                            <div class="row row-padng-top">
+                                <?php
+                                if (!empty($model->manufacturer_id)) {
+                                    $declarant = Agents::findagent($model->manufacturer_id);
+                                }
+                                ?>
+                                <input type="hidden" id="invoice-manufacturer_id" class="form-control manufacturer_field" name="Invoice[manufacturer_id]" value= "<?= !empty($model->manufacturer_id) ? $model->manufacturer_id : '' ?>">
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-manufacture">Code<span class="caret"></span></label>
+                                    <input type="text" id="invoice-manufacturer_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
+                                    <div class="search-keyword-dropdown search-keyword-manufacturer"></div>
+                                </div>
 
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-manufacture">Name1</label>
-									<input type="text" id="invoice-manufacturer_name1" class="form-control manufacturer_field" name="name1" readonly="readonly" value= "<?= !empty($declarant->name1) ? $declarant->name1 : '' ?>">
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-manufacture">Name2</label>
-									<input type="text" id="invoice-manufacturer_name2" class="form-control manufacturer_field" name="name2" readonly="readonly" value= "<?= !empty($declarant->name2) ? $declarant->name2 : '' ?>">
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<label class="control-label" for="invoice-manufacture">CR UEI</label>
-									<input type="text" id="invoice-manufacturer_cruei" class="form-control manufacturer_field" name="cruei" readonly="readonly" value= "<?= !empty($declarant->cr_uei) ? $declarant->cr_uei : '' ?>">
-								</div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-manufacture">Name1</label>
+                                    <input type="text" id="invoice-manufacturer_name1" class="form-control manufacturer_field" name="name1" readonly="readonly" value= "<?= !empty($declarant->name1) ? $declarant->name1 : '' ?>">
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-manufacture">Name2</label>
+                                    <input type="text" id="invoice-manufacturer_name2" class="form-control manufacturer_field" name="name2" readonly="readonly" value= "<?= !empty($declarant->name2) ? $declarant->name2 : '' ?>">
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <label class="control-label" for="invoice-manufacture">CR UEI</label>
+                                    <input type="text" id="invoice-manufacturer_cruei" class="form-control manufacturer_field" name="cruei" readonly="readonly" value= "<?= !empty($declarant->cr_uei) ? $declarant->cr_uei : '' ?>">
+                                </div>
 
-							</div>
+                            </div>
 
-							<span class="main-title-span">Freight Calculation</span>
-							<div class="row row-padng-top">
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'invoice_amount')->textInput(['maxlength' => true]) ?>
-								</div>
-								<div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
-									<?= $form->field($model, 'freight_amount')->textInput(['maxlength' => true]) ?>
-								</div>
+                            <span class="main-title-span">Freight Calculation</span>
+                            <div class="row row-padng-top">
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?= $form->field($model, 'invoice_amount')->textInput(['maxlength' => true]) ?>
+                                </div>
+                                <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
+                                    <?= $form->field($model, 'freight_amount')->textInput(['maxlength' => true]) ?>
+                                </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="invoice-calculate"></label>
                                     <button type="button" class="btn-primary invoice_calculate">Calculate</button>
-							</div>
+                                </div>
                             </div>
-							<span class="main-title-span">Invoice Charge</span>
-							<div class="appointment-service-create row-padng-top">
-								<table class="table table-bordered table-responsive" id="invoice_details">
-									<thead>
-										<tr>
-											<th></th>
-											<th>Charge %</th>
-											<th>Currency</th>
-											<th>Exchange Rate</th>
-											<th>Amount</th>
-											<th>Amount($)</th>
-										</tr>
-									</thead>
-									<tbody id="container_details_body">
+                            <span class="main-title-span">Invoice Charge</span>
+                            <div class="appointment-service-create row-padng-top">
+                                <table class="table table-bordered table-responsive" id="invoice_details">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Charge %</th>
+                                            <th>Currency</th>
+                                            <th>Exchange Rate</th>
+                                            <th>Amount</th>
+                                            <th>Amount($)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="container_details_body">
 
-										<tr>
-											<td>Total Invoice</td>
-											<td></td>
-											<td>
+                                        <tr>
+                                            <td>Total Invoice</td>
+                                            <td></td>
+                                            <td>
                                                 <select id="total_invoice" class="form-control currency" name="">
-													<option >Select</option>
-													<?php
-													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
-													if ($currencys) {
-														foreach ($currencys as $currency) {
-															?>
-															<option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
-															<?php
-														}
-													}
-													?>
-												</select>
-											</td>
+                                                    <option >Select</option>
+                                                    <?php
+                                                    $currencys = common\models\Currency::find()->where(['status' => 1])->all();
+                                                    if ($currencys) {
+                                                        foreach ($currencys as $currency) {
+                                                            ?>
+                                                            <option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
                                             <td><input type="text" value=""  class="form-control total_invoice_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control total_invoice_ex_amount"></td>
                                             <td><input type="text" value=""  class="form-control total_invoice_amount" id="invoice_amount" readonly="readonly"></td>
-										</tr>
-										<tr>
-											<td>Other Taxable Charge</td>
-											<td><input type="text"  class="form-control" value=""></td>
-											<td>
+                                        </tr>
+                                        <tr>
+                                            <td>Other Taxable Charge</td>
+                                            <td><input type="text"  class="form-control" value=""></td>
+                                            <td>
                                                 <select id="other_tax" class="form-control currency" name="">
-													<option >Select</option>
-													<?php
-													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
-													if ($currencys) {
-														foreach ($currencys as $currency) {
-															?>
-															<option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
-															<?php
-														}
-													}
-													?>
-												</select>
-											</td>
+                                                    <option >Select</option>
+                                                    <?php
+                                                    $currencys = common\models\Currency::find()->where(['status' => 1])->all();
+                                                    if ($currencys) {
+                                                        foreach ($currencys as $currency) {
+                                                            ?>
+                                                            <option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
                                             <td><input type="text" value=""  class="form-control other_tax_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control other_tax_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control other_tax_amount" id="invoice-other_tax" readonly="readonly"></td>
-										</tr>
-										<tr>
-											<td>Freight Charge</td>
-											<td><input type="text"  class="form-control" value=""></td>
-											<td>
+                                            <td><input type="text" value=""  class="form-control other_tax_amount" name="Invoice[other_tax_amount]" id="invoice-other_tax" readonly="readonly"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Freight Charge</td>
+                                            <td><input type="text"  class="form-control" value=""></td>
+                                            <td>
                                                 <select id="freight_charge" class="form-control currency" name="">
-													<option >Select</option>
-													<?php
-													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
-													if ($currencys) {
-														foreach ($currencys as $currency) {
-															?>
-															<option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
-															<?php
-														}
-													}
-													?>
-												</select>
-											</td>
+                                                    <option >Select</option>
+                                                    <?php
+                                                    $currencys = common\models\Currency::find()->where(['status' => 1])->all();
+                                                    if ($currencys) {
+                                                        foreach ($currencys as $currency) {
+                                                            ?>
+                                                            <option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
                                             <td><input type="text" value=""  class="form-control freight_charge_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control freight_charge_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control freight_charge_amount" id="invoice_freight" readonly="readonly"></td>
-										</tr>
-										<tr>
-											<td>Insurance Charge</td>
-											<td><input type="text"  class="form-control" value=""></td>
-											<td>
+                                            <td><input type="text" value=""  class="form-control freight_charge_amount" name="Invoice[freight_charge]" id="invoice_freight" readonly="readonly"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insurance Charge</td>
+                                            <td><input type="text"  class="form-control" value=""></td>
+                                            <td>
                                                 <select id="insurance_charge" class="form-control currency" name="">
-													<option >Select</option>
-													<?php
-													$currencys = common\models\Currency::find()->where(['status' => 1])->all();
-													if ($currencys) {
-														foreach ($currencys as $currency) {
-															?>
-															<option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
-															<?php
-														}
-													}
-													?>
-												</select>
-											</td>
+                                                    <option >Select</option>
+                                                    <?php
+                                                    $currencys = common\models\Currency::find()->where(['status' => 1])->all();
+                                                    if ($currencys) {
+                                                        foreach ($currencys as $currency) {
+                                                            ?>
+                                                            <option value="<?= $currency->id ?>"><?= $currency->currency_code ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
                                             <td><input type="text" value="" class="form-control insurance_charge_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control insurance_charge_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control insurance_charge_amount" id="invoice_insurance" readonly="readonly"></td>
-										</tr>
-										<tr>
+                                            <td><input type="text" value=""  class="form-control insurance_charge_amount" name="Invoice[insurance_charge]" id="invoice_insurance" readonly="readonly"></td>
+                                        </tr>
+                                        <tr>
                                             <td colspan="5">Cost, Insurance and Freight</td>
                                             <td><input type="text" value="" name="Invoice[total_amount]" id="invoice-total_amount" class="form-control" readonly="readonly"></td>
-										</tr>
-										<tr>
+                                        </tr>
+                                        <tr>
                                             <td colspan="5">GST</td>
                                             <td><input type="text" value="" name="Invoice[gst_amount]" class="form-control" readonly="readonly"></td>
-										</tr>
-									</tbody>
-								</table>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-							</div>
+                            </div>
 
-							<div class='col-md-4 col-sm-6 col-xs-12'>
-								<div class="form-group">
-									<?= Html::submitButton($model->isNewRecord ? 'Create' : 'update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; ']) ?>
-								</div>
-							</div>
+                            <div class='col-md-4 col-sm-6 col-xs-12'>
+                                <div class="form-group">
+                                    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'update', ['class' => 'btn btn-success', 'style' => 'margin-top: 18px; height: 36px; ']) ?>
+                                </div>
+                            </div>
 
-							<?php ActiveForm::end(); ?>
+                            <?php ActiveForm::end(); ?>
 
-						</div>
-					</div>
+                        </div>
+                    </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $('.invoice_calculate').on('click', function () {
@@ -281,7 +281,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var val = $(this).val();
         var amount = $('.' + id + '_amount').val();
         jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/exchange-rate',
+            url: homeUrl + 'ajax/exchange-rate',
             type: "POST",
             data: {val: val},
             success: function (data) {

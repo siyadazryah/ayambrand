@@ -10,13 +10,12 @@ use common\models\Cargo;
 /**
  * CargoSearch represents the model behind the search form about `common\models\Cargo`.
  */
-class CargoSearch extends Cargo
-{
+class CargoSearch extends Cargo {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'header_id', 'release_location', 'receipt_location', 'CB', 'UB', 'status'], 'integer'],
             [['date', 'container_detail', 'DOC', 'DOU'], 'safe'],
@@ -26,8 +25,7 @@ class CargoSearch extends Cargo
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class CargoSearch extends Cargo
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Cargo::find();
 
         // add conditions that should always apply here
@@ -75,4 +72,5 @@ class CargoSearch extends Cargo
 
         return $dataProvider;
     }
+
 }
