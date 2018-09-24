@@ -160,6 +160,9 @@ final class Image extends AbstractImage
         }
 
         $size = $image->getSize();
+        if (!$this->getSize()->contains($size, $start)) {
+            throw new OutOfBoundsException('Cannot paste image of the given size at the specified position, as it moves outside of the current image\'s box');
+        }
 
         if ($alpha === 100) {
             imagealphablending($this->resource, true);
@@ -225,11 +228,8 @@ final class Image extends AbstractImage
      */
     final public function rotate($angle, ColorInterface $background = null)
     {
-        if ($background === null) {
-            $background = $this->palette->color('fff');
-        }
-        $color = $this->getColor($background);
-        $resource = imagerotate($this->resource, -1 * $angle, $color);
+        $color = $background ? $background : $this->palette->color('fff');
+        $resource = imagerotate($this->resource, -1 * $angle, $this->getColor($color));
 
         if (false === $resource) {
             throw new RuntimeException('Image rotate operation failed');

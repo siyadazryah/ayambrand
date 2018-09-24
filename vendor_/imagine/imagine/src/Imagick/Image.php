@@ -126,7 +126,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::copy()
+     * @return \Imagine\Image\ImageInterface
      */
     public function copy()
     {
@@ -140,7 +140,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::crop()
+     * @return \Imagine\Image\ImageInterface
      */
     public function crop(PointInterface $start, BoxInterface $size)
     {
@@ -172,7 +172,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::flipHorizontally()
+     * @return \Imagine\Image\ImageInterface
      */
     public function flipHorizontally()
     {
@@ -188,7 +188,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::flipVertically()
+     * @return \Imagine\Image\ImageInterface
      */
     public function flipVertically()
     {
@@ -204,7 +204,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::strip()
+     * @return \Imagine\Image\ImageInterface
      */
     public function strip()
     {
@@ -226,7 +226,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::paste()
+     * @return \Imagine\Image\ImageInterface
      */
     public function paste(ImageInterface $image, PointInterface $start, $alpha = 100)
     {
@@ -237,6 +237,10 @@ final class Image extends AbstractImage
         $alpha = (int) round($alpha);
         if ($alpha < 0 || $alpha > 100) {
             throw new InvalidArgumentException(sprintf('The %1$s argument can range from %2$d to %3$d, but you specified %4$d.', '$alpha', 0, 100, $alpha));
+        }
+
+        if (!$this->getSize()->contains($image->getSize(), $start)) {
+            throw new OutOfBoundsException('Cannot paste image of the given size at the specified position, as it moves outside of the current image\'s box');
         }
 
         if ($alpha === 100) {
@@ -293,16 +297,14 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::rotate()
+     * @return \Imagine\Image\ImageInterface
      */
     public function rotate($angle, ColorInterface $background = null)
     {
-        if ($background === null) {
-            $background = $this->palette->color('fff');
-        }
+        $color = $background ? $background : $this->palette->color('fff');
 
         try {
-            $pixel = $this->getColor($background);
+            $pixel = $this->getColor($color);
 
             $this->imagick->rotateimage($pixel, $angle);
 
@@ -318,7 +320,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::save()
+     * @return \Imagine\Image\ImageInterface
      */
     public function save($path = null, array $options = array())
     {
@@ -340,7 +342,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::show()
+     * @return \Imagine\Image\ImageInterface
      */
     public function show($format, array $options = array())
     {
@@ -411,7 +413,7 @@ final class Image extends AbstractImage
         } else {
             $this->layers()->merge();
         }
-        $this->imagick = $this->applyImageOptions($this->imagick, $options, $path);
+        $this->applyImageOptions($this->imagick, $options, $path);
 
         // flatten only if image has multiple layers
         if ((!isset($options['flatten']) || $options['flatten'] === true) && $this->layers()->count() > 1) {
@@ -472,7 +474,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::applyMask()
+     * @return \Imagine\Image\ImageInterface
      */
     public function applyMask(ImageInterface $mask)
     {
@@ -526,7 +528,7 @@ final class Image extends AbstractImage
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\ManipulatorInterface::fill()
+     * @return \Imagine\Image\ImageInterface
      */
     public function fill(FillInterface $fill)
     {
@@ -623,12 +625,15 @@ final class Image extends AbstractImage
         if ($alpha) {
             $alpha = min(max($alpha, 0), 100);
         }
+        $palette = $this->palette();
 
-        $multiplier = $this->palette()->getChannelsMaxValue();
-
-        return $this->palette->color(array_map(function ($color) use ($multiplier, $pixel, $colorMapping) {
+        return $this->palette->color(array_map(function ($color) use ($palette, $pixel, $colorMapping) {
             if (!isset($colorMapping[$color])) {
                 throw new InvalidArgumentException(sprintf('Color %s is not mapped in Imagick', $color));
+            }
+            $multiplier = 255;
+            if ($palette->name() === PaletteInterface::PALETTE_CMYK) {
+                $multiplier = 100;
             }
 
             return $pixel->getColorValue($colorMapping[$color]) * $multiplier;
@@ -746,8 +751,6 @@ final class Image extends AbstractImage
      *
      * @throws \Imagine\Exception\InvalidArgumentException
      * @throws \Imagine\Exception\RuntimeException
-     *
-     * @return \Imagick
      */
     private function applyImageOptions(\Imagick $image, array $options, $path)
     {
@@ -771,8 +774,7 @@ final class Image extends AbstractImage
                     }
                 }
                 if (isset($options['jpeg_quality'])) {
-                    $image->setimagecompressionquality($options['jpeg_quality']);
-                    $image->setcompressionquality($options['jpeg_quality']);
+                    $image->setImageCompressionQuality($options['jpeg_quality']);
                 }
                 if (isset($options['jpeg_sampling_factors'])) {
                     if (!is_array($options['jpeg_sampling_factors']) || \count($options['jpeg_sampling_factors']) < 1) {
@@ -804,8 +806,7 @@ final class Image extends AbstractImage
                     $compression = isset($options['png_compression_level']) ? $options['png_compression_level'] * 10 : 70;
                     // second digit: compression filter (default: 5)
                     $compression += isset($options['png_compression_filter']) ? $options['png_compression_filter'] : 5;
-                    $image->setimagecompressionquality($compression);
-                    $image->setcompressionquality($compression);
+                    $image->setImageCompressionQuality($compression);
                 }
                 break;
             case 'webp':
@@ -842,22 +843,6 @@ final class Image extends AbstractImage
             $image->setImageResolution($options['resolution-x'], $options['resolution-y']);
             $image->resampleImage($options['resolution-x'], $options['resolution-y'], $filter, 0);
         }
-        if (!empty($options['optimize'])) {
-            try {
-                $image = $image->coalesceImages();
-                $optimized = $image->optimizeimagelayers();
-            } catch (\ImagickException $e) {
-                throw new RuntimeException('Image optimization failed', $e->getCode(), $e);
-            }
-            if ($optimized === false) {
-                throw new RuntimeException('Image optimization failed');
-            }
-            if ($optimized instanceof \Imagick) {
-                $image = $optimized;
-            }
-        }
-
-        return $image;
     }
 
     /**

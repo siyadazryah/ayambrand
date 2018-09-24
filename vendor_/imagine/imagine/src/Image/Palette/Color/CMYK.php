@@ -206,9 +206,9 @@ final class CMYK implements ColorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns hex representation of the color.
      *
-     * @see \Imagine\Image\Palette\Color\ColorInterface::__toString()
+     * @return string
      */
     public function __toString()
     {

@@ -129,10 +129,7 @@ final class RGB implements ColorInterface
      */
     public function dissolve($alpha)
     {
-        return $this->palette->color(
-            array($this->r, $this->g, $this->b),
-            min(max((int) round($this->alpha + $alpha), 0), 100)
-        );
+        return $this->palette->color(array($this->r, $this->g, $this->b), $this->alpha + $alpha);
     }
 
     /**
@@ -190,9 +187,9 @@ final class RGB implements ColorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns hex representation of the color.
      *
-     * @see \Imagine\Image\Palette\Color\ColorInterface::__toString()
+     * @return string
      */
     public function __toString()
     {

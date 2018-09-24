@@ -202,6 +202,10 @@ final class Image extends AbstractImage
             throw new InvalidArgumentException(sprintf('The %1$s argument can range from %2$d to %3$d, but you specified %4$d.', '$alpha', 0, 100, $alpha));
         }
 
+        if (!$this->getSize()->contains($image->getSize(), $start)) {
+            throw new OutOfBoundsException('Cannot paste image of the given size at the specified position, as it moves outside of the current image\'s box');
+        }
+
         if ($alpha === 100) {
             try {
                 $this->gmagick->compositeimage($image->gmagick, \Gmagick::COMPOSITE_DEFAULT, $start->getX(), $start->getY());
@@ -262,9 +266,7 @@ final class Image extends AbstractImage
     public function rotate($angle, ColorInterface $background = null)
     {
         try {
-            if ($background === null) {
-                $background = $this->palette->color('fff');
-            }
+            $background = $background ?: $this->palette->color('fff');
             $pixel = $this->getColor($background);
 
             $this->gmagick->rotateimage($pixel, $angle);
@@ -672,11 +674,15 @@ final class Image extends AbstractImage
             }
         }
 
-        $multiplier = $this->palette()->getChannelsMaxValue();
+        $palette = $this->palette();
 
-        return $this->palette->color(array_map(function ($color) use ($multiplier, $pixel, $colorMapping) {
+        return $this->palette->color(array_map(function ($color) use ($palette, $pixel, $colorMapping) {
             if (!isset($colorMapping[$color])) {
                 throw new InvalidArgumentException(sprintf('Color %s is not mapped in Gmagick', $color));
+            }
+            $multiplier = 255;
+            if ($palette->name() === PaletteInterface::PALETTE_CMYK) {
+                $multiplier = 100;
             }
 
             return $pixel->getcolorvalue($colorMapping[$color]) * $multiplier;
@@ -750,6 +756,7 @@ final class Image extends AbstractImage
             $this->profile($palette->profile());
 
             $this->setColorspace($palette);
+            $this->palette = $palette;
         } catch (\GmagickException $e) {
             throw new RuntimeException('Failed to set colorspace', $e->getCode(), $e);
         }

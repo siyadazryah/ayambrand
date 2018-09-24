@@ -48,33 +48,6 @@ return array (
       '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine/src',
     ),
   ),
-  'kartik-v/yii2-widget-select2' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-select2',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/select2' => $vendorDir . '/kartik-v/yii2-widget-select2/src',
-    ),
-  ),
-  'kartik-v/yii2-widget-datepicker' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-datepicker',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker/src',
-    ),
-  ),
-  'kartik-v/yii2-krajee-base' => 
-  array (
-    'name' => 'kartik-v/yii2-krajee-base',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
-    ),
-  ),
   'yiisoft/yii2-debug' => 
   array (
     'name' => 'yiisoft/yii2-debug',
@@ -82,6 +55,15 @@ return array (
     'alias' => 
     array (
       '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug/src',
+    ),
+  ),
+  'kartik-v/yii2-widget-select2' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-select2',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/select2' => $vendorDir . '/kartik-v/yii2-widget-select2',
     ),
   ),
   'yiisoft/yii2-gii' => 
@@ -93,67 +75,22 @@ return array (
       '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii/src',
     ),
   ),
-  'kartik-v/yii2-mpdf' => 
+  'kartik-v/yii2-krajee-base' => 
   array (
-    'name' => 'kartik-v/yii2-mpdf',
-    'version' => '1.0.1.0',
-    'alias' => 
-    array (
-      '@kartik/mpdf' => $vendorDir . '/kartik-v/yii2-mpdf',
-    ),
-  ),
-  'kartik-v/yii2-dialog' => 
-  array (
-    'name' => 'kartik-v/yii2-dialog',
+    'name' => 'kartik-v/yii2-krajee-base',
     'version' => '9999999-dev',
     'alias' => 
     array (
-      '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog/src',
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
     ),
   ),
-  'kartik-v/yii2-widget-activeform' => 
+  'kartik-v/yii2-widget-datepicker' => 
   array (
-    'name' => 'kartik-v/yii2-widget-activeform',
+    'name' => 'kartik-v/yii2-widget-datepicker',
     'version' => '9999999-dev',
     'alias' => 
     array (
-      '@kartik/form' => $vendorDir . '/kartik-v/yii2-widget-activeform/src',
-    ),
-  ),
-  'kartik-v/yii2-sortable' => 
-  array (
-    'name' => 'kartik-v/yii2-sortable',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/sortable' => $vendorDir . '/kartik-v/yii2-sortable/src',
-    ),
-  ),
-  'kartik-v/yii2-grid' => 
-  array (
-    'name' => 'kartik-v/yii2-grid',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid/src',
-    ),
-  ),
-  'kartik-v/yii2-dynagrid' => 
-  array (
-    'name' => 'kartik-v/yii2-dynagrid',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/dynagrid' => $vendorDir . '/kartik-v/yii2-dynagrid/src',
-    ),
-  ),
-  'kartik-v/yii2-export' => 
-  array (
-    'name' => 'kartik-v/yii2-export',
-    'version' => '1.2.8.0',
-    'alias' => 
-    array (
-      '@kartik/export' => $vendorDir . '/kartik-v/yii2-export',
+      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker/src',
     ),
   ),
 );

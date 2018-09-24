@@ -81,21 +81,11 @@ class CMYK implements PaletteInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Image\Palette\PaletteInterface::getChannelsMaxValue()
-     */
-    public function getChannelsMaxValue()
-    {
-        return 100;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see \Imagine\Image\Palette\PaletteInterface::color()
      */
     public function color($color, $alpha = null)
     {
-        if (null !== $alpha && $alpha !== 100) {
+        if (null !== $alpha) {
             throw new InvalidArgumentException('CMYK palette does not support alpha');
         }
 
@@ -119,13 +109,12 @@ class CMYK implements PaletteInterface
         if (!$color1 instanceof CMYKColor || !$color2 instanceof CMYKColor) {
             throw new RuntimeException('CMYK palette can only blend CMYK colors');
         }
-        $max = $this->getChannelsMaxValue();
 
         return $this->color(array(
-            min($max, $color1->getCyan() + $color2->getCyan() * $amount),
-            min($max, $color1->getMagenta() + $color2->getMagenta() * $amount),
-            min($max, $color1->getYellow() + $color2->getYellow() * $amount),
-            min($max, $color1->getKeyline() + $color2->getKeyline() * $amount),
+            min(100, $color1->getCyan() + $color2->getCyan() * $amount),
+            min(100, $color1->getMagenta() + $color2->getMagenta() * $amount),
+            min(100, $color1->getYellow() + $color2->getYellow() * $amount),
+            min(100, $color1->getKeyline() + $color2->getKeyline() * $amount),
         ));
     }
 

@@ -96,8 +96,7 @@ final class Gray implements ColorInterface
     public function dissolve($alpha)
     {
         return $this->palette->color(
-            array($this->gray),
-            min(max((int) round($this->alpha + $alpha), 0), 100)
+            array($this->gray), $this->alpha + $alpha
         );
     }
 
@@ -142,9 +141,9 @@ final class Gray implements ColorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns hex representation of the color.
      *
-     * @see \Imagine\Image\Palette\Color\ColorInterface::__toString()
+     * @return string
      */
     public function __toString()
     {

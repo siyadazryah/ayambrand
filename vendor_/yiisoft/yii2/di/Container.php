@@ -256,7 +256,6 @@ class Container extends Component
         unset($this->_singletons[$class]);
         return $this;
     }
-
     /**
      * Registers a class definition with this container and marks the class as a singleton class.
      *
@@ -418,7 +417,6 @@ class Container extends Component
      * Returns the dependencies of the specified class.
      * @param string $class class name, interface name or alias name
      * @return array the dependencies of the specified class.
-     * @throws InvalidConfigException if a dependency cannot be resolved or if a dependency cannot be fulfilled.
      */
     protected function getDependencies($class)
     {
@@ -427,11 +425,7 @@ class Container extends Component
         }
 
         $dependencies = [];
-        try {
-            $reflection = new ReflectionClass($class);
-        } catch (\ReflectionException $e) {
-            throw new InvalidConfigException('Failed to instantiate component or class "' . $class . '".', 0, $e);
-        }
+        $reflection = new ReflectionClass($class);
 
         $constructor = $reflection->getConstructor();
         if ($constructor !== null) {
@@ -529,7 +523,7 @@ class Container extends Component
     {
         if (is_array($callback)) {
             $reflection = new \ReflectionMethod($callback[0], $callback[1]);
-        } elseif (is_object($callback) && !$callback instanceof \Closure) {
+        } elseif (is_object($callback)) {
             $reflection = new \ReflectionMethod($callback, '__invoke');
         } else {
             $reflection = new \ReflectionFunction($callback);

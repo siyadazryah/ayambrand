@@ -15,7 +15,6 @@ use Imagine\Draw\DrawerInterface;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Exception\RuntimeException;
 use Imagine\Image\AbstractFont;
-use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Point;
@@ -46,10 +45,6 @@ final class Drawer implements DrawerInterface
      */
     public function arc(PointInterface $center, BoxInterface $size, $start, $end, ColorInterface $color, $thickness = 1)
     {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0) {
-            return $this;
-        }
         $x = $center->getX();
         $y = $center->getY();
         $width = $size->getWidth();
@@ -60,7 +55,7 @@ final class Drawer implements DrawerInterface
             $arc = new \ImagickDraw();
 
             $arc->setStrokeColor($pixel);
-            $arc->setStrokeWidth($thickness);
+            $arc->setStrokeWidth(max(1, (int) $thickness));
             $arc->setFillColor('transparent');
             $arc->arc($x - $width / 2, $y - $height / 2, $x + $width / 2, $y + $height / 2, $start, $end);
 
@@ -85,10 +80,6 @@ final class Drawer implements DrawerInterface
      */
     public function chord(PointInterface $center, BoxInterface $size, $start, $end, ColorInterface $color, $fill = false, $thickness = 1)
     {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0 && !$fill) {
-            return $this;
-        }
         $x = $center->getX();
         $y = $center->getY();
         $width = $size->getWidth();
@@ -99,14 +90,17 @@ final class Drawer implements DrawerInterface
             $chord = new \ImagickDraw();
 
             $chord->setStrokeColor($pixel);
-            $chord->setStrokeWidth($thickness);
+            $chord->setStrokeWidth(max(1, (int) $thickness));
 
             if ($fill) {
                 $chord->setFillColor($pixel);
             } else {
-                $from = new Point(round($x + $width / 2 * cos(deg2rad($start))), round($y + $height / 2 * sin(deg2rad($start))));
-                $to = new Point(round($x + $width / 2 * cos(deg2rad($end))), round($y + $height / 2 * sin(deg2rad($end))));
-                $this->line($from, $to, $color, $thickness);
+                $this->line(
+                    new Point(round($x + $width / 2 * cos(deg2rad($start))), round($y + $height / 2 * sin(deg2rad($start)))),
+                    new Point(round($x + $width / 2 * cos(deg2rad($end))), round($y + $height / 2 * sin(deg2rad($end)))),
+                    $color
+                );
+
                 $chord->setFillColor('transparent');
             }
 
@@ -136,34 +130,19 @@ final class Drawer implements DrawerInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Draw\DrawerInterface::circle()
-     */
-    public function circle(PointInterface $center, $radius, ColorInterface $color, $fill = false, $thickness = 1)
-    {
-        $diameter = $radius * 2;
-
-        return $this->ellipse($center, new Box($diameter, $diameter), $color, $fill, $thickness);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see \Imagine\Draw\DrawerInterface::ellipse()
      */
     public function ellipse(PointInterface $center, BoxInterface $size, ColorInterface $color, $fill = false, $thickness = 1)
     {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0 && !$fill) {
-            return $this;
-        }
         $width = $size->getWidth();
         $height = $size->getHeight();
+
         try {
             $pixel = $this->getColor($color);
             $ellipse = new \ImagickDraw();
 
             $ellipse->setStrokeColor($pixel);
-            $ellipse->setStrokeWidth($thickness);
+            $ellipse->setStrokeWidth(max(1, (int) $thickness));
 
             if ($fill) {
                 $ellipse->setFillColor($pixel);
@@ -202,16 +181,12 @@ final class Drawer implements DrawerInterface
      */
     public function line(PointInterface $start, PointInterface $end, ColorInterface $color, $thickness = 1)
     {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0) {
-            return $this;
-        }
         try {
             $pixel = $this->getColor($color);
             $line = new \ImagickDraw();
 
             $line->setStrokeColor($pixel);
-            $line->setStrokeWidth($thickness);
+            $line->setStrokeWidth(max(1, (int) $thickness));
             $line->setFillColor($pixel);
             $line->line(
                 $start->getX(),
@@ -241,10 +216,6 @@ final class Drawer implements DrawerInterface
      */
     public function pieSlice(PointInterface $center, BoxInterface $size, $start, $end, ColorInterface $color, $fill = false, $thickness = 1)
     {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0 && !$fill) {
-            return $this;
-        }
         $width = $size->getWidth();
         $height = $size->getHeight();
 
@@ -308,49 +279,6 @@ final class Drawer implements DrawerInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Imagine\Draw\DrawerInterface::rectangle()
-     */
-    public function rectangle(PointInterface $leftTop, PointInterface $rightBottom, ColorInterface $color, $fill = false, $thickness = 1)
-    {
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0 && !$fill) {
-            return $this;
-        }
-        $minX = min($leftTop->getX(), $rightBottom->getX());
-        $maxX = max($leftTop->getX(), $rightBottom->getX());
-        $minY = min($leftTop->getY(), $rightBottom->getY());
-        $maxY = max($leftTop->getY(), $rightBottom->getY());
-
-        try {
-            $pixel = $this->getColor($color);
-            $rectangle = new \ImagickDraw();
-            $rectangle->setStrokeColor($pixel);
-            $rectangle->setStrokeWidth($thickness);
-
-            if ($fill) {
-                $rectangle->setFillColor($pixel);
-            } else {
-                $rectangle->setFillColor('transparent');
-            }
-
-            $rectangle->rectangle($minX, $minY, $maxX, $maxY);
-            $this->imagick->drawImage($rectangle);
-
-            $pixel->clear();
-            $pixel->destroy();
-
-            $rectangle->clear();
-            $rectangle->destroy();
-        } catch (\ImagickException $e) {
-            throw new RuntimeException('Draw rectangle operation failed', $e->getCode(), $e);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see \Imagine\Draw\DrawerInterface::polygon()
      */
     public function polygon(array $coordinates, ColorInterface $color, $fill = false, $thickness = 1)
@@ -359,10 +287,6 @@ final class Drawer implements DrawerInterface
             throw new InvalidArgumentException(sprintf('Polygon must consist of at least 3 coordinates, %d given', count($coordinates)));
         }
 
-        $thickness = max(0, (int) round($thickness));
-        if ($thickness === 0 && !$fill) {
-            return $this;
-        }
         $points = array_map(function (PointInterface $p) {
             return array('x' => $p->getX(), 'y' => $p->getY());
         }, $coordinates);
@@ -372,7 +296,7 @@ final class Drawer implements DrawerInterface
             $polygon = new \ImagickDraw();
 
             $polygon->setStrokeColor($pixel);
-            $polygon->setStrokeWidth($thickness);
+            $polygon->setStrokeWidth(max(1, (int) $thickness));
 
             if ($fill) {
                 $polygon->setFillColor($pixel);
@@ -421,10 +345,6 @@ final class Drawer implements DrawerInterface
             $text->setFillColor($pixel);
             $text->setTextAntialias(true);
 
-            if ($width !== null) {
-                $string = $font->wrapText($string, $width, $angle);
-            }
-
             $info = $this->imagick->queryFontMetrics($text, $string);
             $rad = deg2rad($angle);
             $cos = cos($rad);
@@ -439,6 +359,10 @@ final class Drawer implements DrawerInterface
 
             $xdiff = 0 - min($x1, $x2);
             $ydiff = 0 - min($y1, $y2);
+
+            if ($width !== null) {
+                $string = $this->wrapText($string, $text, $angle, $width);
+            }
 
             $this->imagick->annotateImage(
                 $text, $position->getX() + $x1 + $xdiff,
@@ -470,5 +394,30 @@ final class Drawer implements DrawerInterface
         $pixel->setColorValue(\Imagick::COLOR_ALPHA, $color->getAlpha() / 100);
 
         return $pixel;
+    }
+
+    /**
+     * Fits a string into box with given width.
+     *
+     * @param string $string
+     * @param \ImagickDraw $text
+     * @param int $angle
+     * @param int $width
+     */
+    private function wrapText($string, $text, $angle, $width)
+    {
+        $result = '';
+        $words = explode(' ', $string);
+        foreach ($words as $word) {
+            $teststring = $result . ' ' . $word;
+            $testbox = $this->imagick->queryFontMetrics($text, $teststring, true);
+            if ($testbox['textWidth'] > $width) {
+                $result .= ($result == '' ? '' : "\n") . $word;
+            } else {
+                $result .= ($result == '' ? '' : ' ') . $word;
+            }
+        }
+
+        return $result;
     }
 }
