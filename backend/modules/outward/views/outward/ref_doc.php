@@ -92,62 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<script>
-    jQuery('#cargo-release_code').on('keyup', function (e) {
-        if ($(this).val() === "") {
-            $('.release_field').val('');
-        } else {
-            locationdropdown($(this).val(), 'search-release', 'search-keyword-release_code', 'release_field');
-        }
-    });
-    $('body').on('click', '.search-release', function () {
-        var id = $(this).attr('id');
-        findlocation(id, 'cargo-release_');
-    });
-    jQuery('#cargo-receipt_code').on('keyup', function (e) {
-        if ($(this).val() === "") {
-            $('.receipt_field').val('');
-        } else {
-            locationdropdown($(this).val(), 'search-receipt', 'search-keyword-receipt_code', 'release_field');
-        }
-    });
-    $('body').on('click', '.search-receipt', function () {
-        var id = $(this).attr('id');
-        findlocation(id, 'cargo-receipt_');
-    });
-    /********************/
-    function findlocation(id, dropdown) {
-        jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-location',
-            type: "POST",
-            data: {id: id},
-            success: function (data) {
-                var $data = JSON.parse(data);
-                if ($data.msg === "success") {
-                    $('#' + dropdown + 'id').val($data.id);
-                    $('#' + dropdown + 'location').val($data.location_name);
-                    $('#' + dropdown + 'code').val($data.location_code);
-                    jQuery('.search-keyword-dropdown').html('');
-                }
-
-            }
-        });
-    }
-    function locationdropdown(keyword, dropdown, searchplace, emptyfield) {
-        jQuery.ajax({
-            url: homeUrl + 'inpayment/in-payment/search-locationkeyword',
-            type: "POST",
-            data: {keyword: keyword, dropdown: dropdown},
-            success: function (data) {
-                if (data === '') {
-                    $('.' + emptyfield).val('');
-                } else {
-                    jQuery('.' + searchplace).html(data);
-                }
-            },
-        });
-    }
-</script>
 
 
 

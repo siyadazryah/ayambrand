@@ -30,35 +30,34 @@ use Yii;
  * @property string $DOU
  * @property int $status
  */
-class NonpaymentHeader extends \yii\db\ActiveRecord
-{
+class NonpaymentHeader extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'nonpayment_header';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'declaration_type', 'CB', 'UB', 'DOC'], 'required'],
-            [['declaration_type', 'cargo_pack_type', 'inward_transport_mode', 'bg_indicator', 'supply_indicator', 'ref_documents', 'CB', 'UB', 'status'], 'integer'],
+            [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'declaration_type'], 'required'],
+            [['declaration_type', 'cargo_pack_type', 'inward_transport_mode', 'bg_indicator', 'supply_indicator', 'ref_documents'], 'integer'],
             [['DOC', 'DOU'], 'safe'],
             [['tradenet_mailbox_id', 'declarant_name', 'cr_uei_no', 'job_number', 'message_type', 'previous_permit_no', 'reference1', 'reference2', 'reference3'], 'string', 'max' => 200],
-            [['import_data'], 'string', 'max' => 100],
+            //            [['import_data'], 'string', 'max' => 100],
+            [['import_data'], 'required', 'on' => 'create'],
+            [['import_data'], 'file', 'extensions' => 'png, jpg, jpeg, gif, bmp, pdf, doc, docx'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'tradenet_mailbox_id' => 'Tradenet Mailbox ID',
@@ -84,4 +83,5 @@ class NonpaymentHeader extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
 }

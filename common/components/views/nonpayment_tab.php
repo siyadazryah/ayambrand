@@ -8,7 +8,7 @@ use yii\helpers\Url;
         <?= Html::a('Header', ['header', 'id' => $id], ['class' => 'step-links']) ?>
     </li>
     <?php
-    $party = common\models\OutwardHeader::findOne($id);
+    $party = common\models\NonpaymentHeader::findOne($id);
     if ($party) {
         ?>
         <li role="presentation" class="<?= $step == 2 ? 'active' : '' ?>">
@@ -16,7 +16,7 @@ use yii\helpers\Url;
         </li>
     <?php } ?>
     <?php
-    $cargo = common\models\OutwardParty::find()->where(['status' => 1, 'header_id' => $id])->one();
+    $cargo = common\models\NonpaymentParty::find()->where(['status' => 1, 'header_id' => $id])->one();
     if ($cargo) {
         ?>
         <li role="presentation" class="<?= $step == 3 ? 'active' : '' ?>">
@@ -24,7 +24,7 @@ use yii\helpers\Url;
         </li>
     <?php } ?>
     <?php
-    $in_trans = common\models\OutwardCargo::find()->where(['status' => 1, 'header_id' => $id])->one();
+    $in_trans = common\models\NonpaymentCargo::find()->where(['status' => 1, 'header_id' => $id])->one();
     if ($in_trans) {
         ?>
         <li role="presentation" class="<?= $step == 4 ? 'active' : '' ?>">
@@ -32,7 +32,7 @@ use yii\helpers\Url;
         </li>
     <?php } ?>
     <?php
-    $ref_doc = common\models\OutwardInTrans::find()->where(['status' => 1, 'header_id' => $id])->one();
+    $ref_doc = common\models\NonpaymentInTrans::find()->where(['status' => 1, 'header_id' => $id])->one();
     if ($ref_doc) {
         ?>
         <li role="presentation" class="<?= $step == 5 ? 'active' : '' ?>">
@@ -48,7 +48,7 @@ use yii\helpers\Url;
         </li>
     <?php } if ($invoice) { ?>
 
-        <li role="presentation" class="<?= $step == 7 ? 'active' : '' ?>">
+<!--        <li role="presentation" class="<?= $step == 7 ? 'active' : '' ?>">
             <?= Html::a('Item', ['item', 'id' => $id], ['class' => 'step-links']) ?>
         </li>
         <li role="presentation" class="<?= $step == 8 ? 'active' : '' ?>">
@@ -56,6 +56,7 @@ use yii\helpers\Url;
         </li>
         <li role="presentation" class="<?= $step == 9 ? 'active' : '' ?>">
             <?= Html::a('Summary', ['summary', 'id' => $id], ['class' => 'step-links']) ?>
-        </li>
+        </li>-->
     <?php } ?>
+
 </ul>

@@ -3,17 +3,17 @@
 namespace backend\modules\nonpayment\controllers;
 
 use Yii;
-use common\models\OutwardHeader;
-use common\models\OutwardHeaderSearch;
+use common\models\NonpaymentHeader;
+use common\models\NonpaymentHeaderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use common\models\OutwardParty;
-use common\models\OutwardCargo;
-use common\models\OutwardContainerDetails;
-use common\models\OutwardInTrans;
-use common\models\OutwardRefDocument;
+use common\models\NonpaymentParty;
+use common\models\NonpaymentCargo;
+use common\models\NonpaymentContainerDetails;
+use common\models\NonpaymentInTrans;
+use common\models\NonpaymentRefDocument;
 use common\models\OutwardInvoice;
 use common\models\OutwardItem;
 use common\models\OutwardSummary;
@@ -42,7 +42,7 @@ class NonpaymentController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new OutwardHeaderSearch();
+        $searchModel = new NonpaymentHeaderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -52,9 +52,9 @@ class NonpaymentController extends Controller {
     }
 
     public function actionHeader($id = NULL) {
-        $model = OutwardHeader::findOne($id);
+        $model = NonpaymentHeader::findOne($id);
         if (empty($model)) {
-            $model = new OutwardHeader();
+            $model = new NonpaymentHeader();
             $model->setScenario('create');
         } else {
             $import_data_ = $model->import_data;
@@ -85,22 +85,22 @@ class NonpaymentController extends Controller {
      */
     public function uploadHeader($model, $import_data) {
         if (isset($import_data) && !empty($import_data)) {
-            $import_data->saveAs(Yii::$app->basePath . '/../uploads/outward/header/data/' . $model->id . '.' . $import_data->extension);
+            $import_data->saveAs(Yii::$app->basePath . '/../uploads/nonpayment/header/data/' . $model->id . '.' . $import_data->extension);
         }
         return TRUE;
     }
 
     public function actionParty($id) {
-        $model = OutwardParty::find()->where(['header_id' => $id])->one();
+        $model = NonpaymentParty::find()->where(['header_id' => $id])->one();
         if (empty($model)) {
-            $model = new OutwardParty();
+            $model = new NonpaymentParty();
         }
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
-            $model->declarant_id = Yii::$app->request->post()['OutwardParty']['declarant_id'];
-            $model->importer_id = Yii::$app->request->post()['OutwardParty']['importer_id'];
-            $model->frieght_forwarder_id = Yii::$app->request->post()['OutwardParty']['frieght_forwarder_id'];
-            $model->inward_agent_id = Yii::$app->request->post()['OutwardParty']['inward_agent_id'];
-            $model->claimant_party_id = Yii::$app->request->post()['OutwardParty']['claimant_party_id'];
+            $model->declarant_id = Yii::$app->request->post()['NonpaymentParty']['declarant_id'];
+            $model->importer_id = Yii::$app->request->post()['NonpaymentParty']['importer_id'];
+            $model->frieght_forwarder_id = Yii::$app->request->post()['NonpaymentParty']['frieght_forwarder_id'];
+            $model->inward_agent_id = Yii::$app->request->post()['NonpaymentParty']['inward_agent_id'];
+            $model->claimant_party_id = Yii::$app->request->post()['NonpaymentParty']['claimant_party_id'];
             $model->header_id = $id;
             $model->save();
             return $this->redirect(['party', 'id' => $id]);
@@ -113,14 +113,14 @@ class NonpaymentController extends Controller {
     }
 
     public function actionCargo($id) {
-        $model = OutwardCargo::find()->where(['header_id' => $id])->one();
-        $container_model = new OutwardContainerDetails();
+        $model = NonpaymentCargo::find()->where(['header_id' => $id])->one();
+        $container_model = new NonpaymentContainerDetails();
         if (empty($model)) {
-            $model = new OutwardCargo();
+            $model = new NonpaymentCargo();
             $model->setScenario('create');
         } else {
             $container_detail_ = $model->container_detail;
-            $searchModel = new \common\models\OutwardContainerDetailsSearch();
+            $searchModel = new \common\models\NonpaymentContainerDetailsSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             $dataProvider->query->andWhere(['header_id' => $id, 'cargo_id' => $model->id]);
         }
@@ -132,11 +132,11 @@ class NonpaymentController extends Controller {
             } else {
                 $model->container_detail = $container_detail_;
             }
-            $model->release_location = Yii::$app->request->post()['OutwardCargo']['release_location'];
-            $model->receipt_location = Yii::$app->request->post()['OutwardCargo']['receipt_location'];
+            $model->release_location = Yii::$app->request->post()['NonpaymentCargo']['release_location'];
+            $model->receipt_location = Yii::$app->request->post()['NonpaymentCargo']['receipt_location'];
             if ($model->validate() && $model->save()) {
                 if ($container_model->load(Yii::$app->request->post())) {
-                    OutwardContainerDetails::conter_details($id, $model->id);
+                    NonpaymentContainerDetails::conter_details($id, $model->id);
                 }
                 $this->uploadCargo($model, $container_detail);
             }
@@ -154,9 +154,9 @@ class NonpaymentController extends Controller {
 
     public function actionInTrans($id) {
         $header = $this->findModel($id);
-        $model = OutwardInTrans::find()->where(['header_id' => $id])->one();
+        $model = NonpaymentInTrans::find()->where(['header_id' => $id])->one();
         if (empty($model)) {
-            $model = new OutwardInTrans();
+            $model = new NonpaymentInTrans();
         }
         $model->mode = $header->inward_transport_mode;
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
@@ -172,9 +172,9 @@ class NonpaymentController extends Controller {
     }
 
     public function actionRefDocument($id) {
-        $model = new OutwardRefDocument();
+        $model = new NonpaymentRefDocument();
         $model->setScenario('create');
-        $documents = OutwardRefDocument::find()->where(['status' => 1, 'header_id' => $id])->all();
+        $documents = NonpaymentRefDocument::find()->where(['status' => 1, 'header_id' => $id])->all();
         if ($model->load(Yii::$app->request->post()) && Yii::$app->SetValues->Attributes($model)) {
             $file = UploadedFile::getInstance($model, 'file');
             if (!empty($file)) {
@@ -196,7 +196,7 @@ class NonpaymentController extends Controller {
     }
 
     public function actionDocument($id) {
-        $doc = OutwardRefDocument::findOne($id);
+        $doc = NonpaymentRefDocument::findOne($id);
         return $this->render('doc_view', [
                     'doc' => $doc,
         ]);
@@ -295,7 +295,7 @@ class NonpaymentController extends Controller {
      */
     public function uploadCargo($model, $import_data) {
         if (isset($import_data) && !empty($import_data)) {
-            $import_data->saveAs(Yii::$app->basePath . '/../uploads/outward/cargo/container/' . $model->id . '.' . $import_data->extension);
+            $import_data->saveAs(Yii::$app->basePath . '/../uploads/nonpayment/cargo/container/' . $model->id . '.' . $import_data->extension);
         }
         return TRUE;
     }
@@ -306,13 +306,13 @@ class NonpaymentController extends Controller {
      */
     public function uploadRefdoc($model, $import_data) {
         if (isset($import_data) && !empty($import_data)) {
-            $import_data->saveAs(Yii::$app->basePath . '/../uploads/outward/reference_document/docs/' . $model->id . '.' . $import_data->extension);
+            $import_data->saveAs(Yii::$app->basePath . '/../uploads/nonpayment/reference_document/docs/' . $model->id . '.' . $import_data->extension);
         }
         return TRUE;
     }
 
     public function actionContainerDelete($id) {
-        $model = OutwardContainerDetails::findOne($id);
+        $model = NonpaymentContainerDetails::findOne($id);
         $header = $model->header_id;
         $model->delete();
         return $this->redirect(['cargo', 'id' => $header]);
@@ -330,7 +330,7 @@ class NonpaymentController extends Controller {
   
 
     protected function findModel($id) {
-        if (($model = OutwardHeader::findOne($id)) !== null) {
+        if (($model = NonpaymentHeader::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

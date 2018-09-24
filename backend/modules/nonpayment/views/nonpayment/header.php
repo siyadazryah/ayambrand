@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Header';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
             <div class="panel-body">
-                <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 1]) ?>
+                <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 1]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">Header</h3>-->

@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Header';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,11 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
             <div class="panel-body">
-               <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 4]) ?>
+                <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 4]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">In Trans</h3>-->
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $declarant = Location::findlocation($model->loading_port);
                                 }
                                 ?>
-                                <input type="hidden" id="intrans_id" class="form-control location_field" name="OutwardInTrans[loading_port]" value= "<?= !empty($model->loading_port) ? $model->loading_port : '' ?>">
+                                <input type="hidden" id="intrans_id" class="form-control location_field" name="NonpaymentInTrans[loading_port]" value= "<?= !empty($model->loading_port) ? $model->loading_port : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="intrans_code">Loading Port<span class="caret"></span></label>
                                     <input type="text" id="intrans_code" class="form-control " name="location" value= "<?= !empty($declarant->location_code) ? $declarant->location_code : '' ?>" autocomplete="off">

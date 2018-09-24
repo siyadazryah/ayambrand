@@ -14,7 +14,7 @@ use kartik\export\ExportMenu;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Outward';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
             <div class="panel-body">
-                <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 3]) ?>
+                <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 3]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">Cargo</h3>-->
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $declarant = Location::findlocation($model->release_location);
                                 }
                                 ?>
-                                <input type="hidden" id="cargo-release_id" class="form-control release_field" name="OutwardCargo[release_location]" value= "<?= !empty($model->release_location) ? $model->release_location : '' ?>">
+                                <input type="hidden" id="cargo-release_id" class="form-control release_field" name="NonpaymentCargo[release_location]" value= "<?= !empty($model->release_location) ? $model->release_location : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="cargo-release_code">Location Code<span class="caret"></span></label>
                                     <input type="text" id="cargo-release_code" class="form-control" name="release_location" value= "<?= !empty($declarant->location_code) ? $declarant->location_code : '' ?>" autocomplete="off">
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $location = Location::findlocation($model->receipt_location);
                                 }
                                 ?>
-                                <input type="hidden" id="cargo-receipt_id" class="form-control receipt_field" name="OutwardCargo[receipt_location]" value= "<?= !empty($model->receipt_location) ? $model->receipt_location : '' ?>">
+                                <input type="hidden" id="cargo-receipt_id" class="form-control receipt_field" name="NonpaymentCargo[receipt_location]" value= "<?= !empty($model->receipt_location) ? $model->receipt_location : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="cargo-release_code">Location Code<span class="caret"></span></label>
                                     <input type="text" id="cargo-receipt_code" class="form-control" name="receipt_location" value= "<?= !empty($location->location_code) ? $location->location_code : '' ?>" autocomplete="off">
@@ -109,10 +109,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <tbody id="container_details_body">
 
                                         <tr  id="p_scents">
-                                            <td><input type="text" id="containerdetails-container_no" class="form-control" name="OutwardContainerDetails[container_no][]"></td>
+                                            <td><input type="text" id="containerdetails-container_no" class="form-control" name="NonpaymentContainerDetails[container_no][]"></td>
 
                                             <td>
-                                                <select id="containerdetails-size_type" class="form-control" name="OutwardContainerDetails[size_type][]">
+                                                <select id="containerdetails-size_type" class="form-control" name="NonpaymentContainerDetails[size_type][]">
                                                     <option >Select</option>
                                                     <?php
                                                     $sizes = Size::find()->where(['status' => 1])->all();
@@ -126,9 +126,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ?>
                                                 </select>
                                             </td>
-                                            <td><input type="text" id="containerdetails-weight" class="form-control" name="OutwardContainerDetails[weight][]"></td>
-                                            <td><input type="text" id="containerdetails-seal_no" class="form-control" name="OutwardContainerDetails[seal_no][]"></td>
-                                            <td><button type="button" class="button more_container"  attr_id="OutwardContainerDetails">Add More</button></td>
+                                            <td><input type="text" id="containerdetails-weight" class="form-control" name="NonpaymentContainerDetails[weight][]"></td>
+                                            <td><input type="text" id="containerdetails-seal_no" class="form-control" name="NonpaymentContainerDetails[seal_no][]"></td>
+                                            <td><button type="button" class="button more_container"  attr_id="NonpaymentContainerDetails">Add More</button></td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -8,7 +8,7 @@ use common\models\ClaimantParty;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Outward';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,12 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
 
             <div class="panel-body">
-                <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 2]) ?>
+               <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 2]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">Party</h3>-->
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $declarant = Agents::findagent($model->declarant_id);
                                 }
                                 ?>
-                                <input type="hidden" id="party-declarant_id" class="form-control declarant_field" name="OutwardParty[declarant_id]" value= "<?= !empty($model->declarant_id) ? $model->declarant_id : '' ?>">
+                                <input type="hidden" id="party-declarant_id" class="form-control declarant_field" name="NonpaymentParty[declarant_id]" value= "<?= !empty($model->declarant_id) ? $model->declarant_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="party-declarant_id">Code<span class="caret"></span></label>
                                     <input type="text" id="party-declarant_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $importer = Agents::findagent($model->importer_id);
                                 }
                                 ?>
-                                <input type="hidden" id="party-importer_id" class="form-control importer_field" name="OutwardParty[importer_id]" value= "<?= !empty($model->importer_id) ? $model->importer_id : '' ?>">
+                                <input type="hidden" id="party-importer_id" class="form-control importer_field" name="NonpaymentParty[importer_id]" value= "<?= !empty($model->importer_id) ? $model->importer_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="party-importer_id">Code<span class="caret"></span></label>
                                     <input type="text" id="party-importer_code" class="form-control" name="code1" value= "<?= !empty($importer->code) ? $importer->code : '' ?>" autocomplete="off">
@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $frieght = Agents::findagent($model->frieght_forwarder_id);
                                 }
                                 ?>
-                                <input type="hidden" id="party-frieght_forwarder_id" class="form-control frieght_field" name="OutwardParty[frieght_forwarder_id]" value= "<?= !empty($model->frieght_forwarder_id) ? $model->frieght_forwarder_id : '' ?>">
+                                <input type="hidden" id="party-frieght_forwarder_id" class="form-control frieght_field" name="NonpaymentParty[frieght_forwarder_id]" value= "<?= !empty($model->frieght_forwarder_id) ? $model->frieght_forwarder_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="party-importer_id">Code<span class="caret"></span></label>
                                     <input type="text" id="party-frieght_forwarder_code" class="form-control" name="code1" value= "<?= !empty($frieght->code) ? $frieght->code : '' ?>" autocomplete="off">
@@ -116,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $inward_agent = Agents::findagent($model->inward_agent_id);
                                 }
                                 ?>
-                                <input type="hidden" id="party-inward_agent_id" class="form-control inward_field" name="OutwardParty[inward_agent_id]" value= "<?= !empty($model->inward_agent_id) ? $model->inward_agent_id : '' ?>">
+                                <input type="hidden" id="party-inward_agent_id" class="form-control inward_field" name="NonpaymentParty[inward_agent_id]" value= "<?= !empty($model->inward_agent_id) ? $model->inward_agent_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="party-inward_agent_id">Code<span class="caret"></span></label>
                                     <input type="text" id="party-inward_agent_code" class="form-control" name="code1" value= "<?= !empty($inward_agent->code) ? $inward_agent->code : '' ?>" autocomplete="off">
@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $claimant = ClaimantParty::findclaimant($model->claimant_party_id);
                                 }
                                 ?>
-                                <input type="hidden" id="party-claimant_party_id" class="form-control claimant_field" name="OutwardParty[claimant_party_id]" value= "<?= !empty($model->claimant_party_id) ? $model->claimant_party_id : '' ?>">
+                                <input type="hidden" id="party-claimant_party_id" class="form-control claimant_field" name="NonpaymentParty[claimant_party_id]" value= "<?= !empty($model->claimant_party_id) ? $model->claimant_party_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="party-claimant_party_id">Claimant Id<span class="caret"></span></label>
                                     <input type="text" id="party-claimant_party_claimant_id" class="form-control" name="claimant_id" value= "<?= !empty($claimant->claimant_id) ? $claimant->claimant_id : '' ?>" autocomplete="off">
