@@ -31,8 +31,8 @@ return [
         'outward' => [
             'class' => 'backend\modules\outward\Module',
         ],
-        'in-non-payment' => [
-            'class' => 'backend\modules\in-non-payment\Module',
+        'nonpayment' => [
+            'class' => 'backend\modules\nonpayment\Module',
         ],
         'masters' => [
             'class' => 'backend\modules\masters\Module',
