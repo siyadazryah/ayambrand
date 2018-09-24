@@ -48,7 +48,7 @@ use yii\helpers\Url;
         </li>
     <?php } if ($invoice) { ?>
 
-<!--        <li role="presentation" class="<?= $step == 7 ? 'active' : '' ?>">
+        <li role="presentation" class="<?= $step == 7 ? 'active' : '' ?>">
             <?= Html::a('Item', ['item', 'id' => $id], ['class' => 'step-links']) ?>
         </li>
         <li role="presentation" class="<?= $step == 8 ? 'active' : '' ?>">
@@ -56,7 +56,7 @@ use yii\helpers\Url;
         </li>
         <li role="presentation" class="<?= $step == 9 ? 'active' : '' ?>">
             <?= Html::a('Summary', ['summary', 'id' => $id], ['class' => 'step-links']) ?>
-        </li>-->
+        </li>
     <?php } ?>
 
 </ul>

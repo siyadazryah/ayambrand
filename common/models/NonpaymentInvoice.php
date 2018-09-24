@@ -31,21 +31,19 @@ use Yii;
  *
  * @property NonpaymentHeader $header
  */
-class NonpaymentInvoice extends \yii\db\ActiveRecord
-{
+class NonpaymentInvoice extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'nonpayment_invoice';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['header_id', 'invoice_no'], 'required'],
             [['header_id', 'term_type', 'ad_valorem_indicator', 'duty_rate_indicator', 'importer_id', 'manufacturer_id', 'CB', 'UB', 'status'], 'integer'],
@@ -59,8 +57,7 @@ class NonpaymentInvoice extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'header_id' => 'Header ID',
@@ -89,8 +86,8 @@ class NonpaymentInvoice extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHeader()
-    {
+    public function getHeader() {
         return $this->hasOne(NonpaymentHeader::className(), ['id' => 'header_id']);
     }
+
 }

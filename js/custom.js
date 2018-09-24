@@ -36,6 +36,24 @@ $(document).ready(function () {
             });
         }
     });
+    /*********nonpayment invoice********/
+    $('#nonpaymentinvoice-term_type').on('change', function () {
+        var val = $(this).val();
+        if (val !== 'undefined' && val !== '') {
+            jQuery.ajax({
+                url: homeUrl + 'ajax/term-name',
+                type: "POST",
+                data: {val: val},
+                success: function (data) {
+                    var $data = JSON.parse(data);
+                    $('#nonpaymentinvoice-term_type_name').val($data.name);
+                    $('#nonpaymentinvoice_freight').val($data.freight);
+                    $('#nonpaymentinvoice_insurance').val($data.insurance);
+//                 $(data.content).appendTo('<tr>');
+                }
+            });
+        }
+    });
 
     /*****************/
 

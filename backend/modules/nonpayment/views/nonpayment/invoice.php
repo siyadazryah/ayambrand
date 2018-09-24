@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Header';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -24,11 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
             <div class="panel-body">
-                <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 6]) ?>
+                <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 6]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <!--<h3 class="heading">Invoice</h3>-->
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="outwardinvoice-type_name"></label>
-                                    <input type="text" id="outwardinvoice-term_type_name" class="form-control" value= "" readonly="readonly">
+                                    <input type="text" id="nonpaymentinvoice-term_type_name" class="form-control" value= "" readonly="readonly">
                                 </div>
                             </div>
                             <div class="row">
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $declarant = Agents::findagent($model->manufacturer_id);
                                 }
                                 ?>
-                                <input type="hidden" id="invoice-manufacturer_id" class="form-control manufacturer_field" name="OutwardInvoice[manufacturer_id]" value= "<?= !empty($model->manufacturer_id) ? $model->manufacturer_id : '' ?>">
+                                <input type="hidden" id="invoice-manufacturer_id" class="form-control manufacturer_field" name="NonpaymentInvoice[manufacturer_id]" value= "<?= !empty($model->manufacturer_id) ? $model->manufacturer_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="invoice-manufacture">Code<span class="caret"></span></label>
                                     <input type="text" id="invoice-manufacturer_code" class="form-control" name="code1" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>
                                     <label class="control-label" for="invoice-calculate"></label>
-                                    <button type="button" class="btn-primary outward_invoice_calculate">Calculate</button>
+                                    <button type="button" class="btn-primary nonpayment_invoice_calculate">Calculate</button>
                                 </div>
                             </div>
                             <span class="main-title-span">Invoice Charge</span>
@@ -152,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td>
                                             <td><input type="text" value=""  class="form-control total_invoice_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control total_invoice_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control total_invoice_amount" id="outwardinvoice_amount" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control total_invoice_amount" id="nonpaymentinvoice_amount" readonly="readonly"></td>
                                         </tr>
                                         <tr>
                                             <td>Other Taxable Charge</td>
@@ -174,7 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td>
                                             <td><input type="text" value=""  class="form-control other_tax_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control other_tax_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control other_tax_amount" name="outwardinvoice[other_tax_amount]" id="outwardinvoice-other_tax" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control other_tax_amount" name="NonpaymentInvoice[other_tax_amount]" id="nonpaymentinvoice-other_tax" readonly="readonly"></td>
                                         </tr>
                                         <tr>
                                             <td>Freight Charge</td>
@@ -196,7 +196,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td>
                                             <td><input type="text" value=""  class="form-control freight_charge_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control freight_charge_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control freight_charge_amount" name="outwardinvoice[freight_charge]" id="outwardinvoice_freight" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control freight_charge_amount" name="NonpaymentInvoice[freight_charge]" id="nonpaymentinvoice_freight" readonly="readonly"></td>
                                         </tr>
                                         <tr>
                                             <td>Insurance Charge</td>
@@ -218,15 +218,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </td>
                                             <td><input type="text" value="" class="form-control insurance_charge_exchange" readonly="readonly"></td>
                                             <td><input type="text" value=""  class="form-control insurance_charge_ex_amount"></td>
-                                            <td><input type="text" value=""  class="form-control insurance_charge_amount" name="outwardinvoice[insurance_charge]" id="outwardinvoice_insurance" readonly="readonly"></td>
+                                            <td><input type="text" value=""  class="form-control insurance_charge_amount" name="NonpaymentInvoice[insurance_charge]" id="nonpaymentinvoice_insurance" readonly="readonly"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5">Cost, Insurance and Freight</td>
-                                            <td><input type="text" value="" name="outwardinvoice[total_amount]" id="outwardinvoice-total_amount" class="form-control" readonly="readonly"></td>
+                                            <td><input type="text" value="" name="NonpaymentInvoice[total_amount]" id="nonpaymentinvoice-total_amount" class="form-control" readonly="readonly"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5">GST</td>
-                                            <td><input type="text" value="" name="outwardinvoice[gst_amount]" class="form-control" readonly="readonly"></td>
+                                            <td><input type="text" value="" name="NonpaymentInvoice[gst_amount]" class="form-control" readonly="readonly"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -250,31 +250,31 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script>
-    $('.outward_invoice_calculate').on('click', function () {
-        var invoice = $('#outwardinvoice-invoice_amount').val();
-        var freight = $('#outwardinvoice-freight_amount').val();
+    $('.nonpayment_invoice_calculate').on('click', function () {
+        var invoice = $('#nonpaymentinvoice-invoice_amount').val();
+        var freight = $('#nonpaymentinvoice-freight_amount').val();
         if (invoice === '') {
             invoice = 0;
         }
         if (freight === '') {
             freight = 0;
         }
-        var invoice_freight = $('#outwardinvoice_freight').val();
+        var invoice_freight = $('#nonpaymentinvoice_freight').val();
         if (invoice_freight === '') {
             invoice_freight = 0;
         }
-        var invoice_insurance = $('#outwardinvoice_insurance').val();
+        var invoice_insurance = $('#nonpaymentinvoice_insurance').val();
         if (invoice_insurance === '') {
             invoice_insurance = 0;
         }
-        var other_tax = $('#outwardinvoice-other_tax').val();
+        var other_tax = $('#nonpaymentinvoice-other_tax').val();
         if (other_tax === '') {
             other_tax = 0;
         }
         var total = parseFloat(invoice) + parseFloat(freight);
         var total_amount = total + parseFloat(invoice_freight) + parseFloat(invoice_insurance) + parseFloat(other_tax);
-        $('#outwardinvoice_amount').val(total);
-        $('#outwardinvoice-total_amount').val(total_amount);
+        $('#nonpaymentinvoice_amount').val(total);
+        $('#nonpaymentinvoice-total_amount').val(total_amount);
     });
     $('.currency').on('change', function () {
         var id = $(this).attr('id');

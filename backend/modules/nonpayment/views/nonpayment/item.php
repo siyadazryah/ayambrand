@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model common\models\Header */
 
-$this->title = 'Outward';
+$this->title = 'Non Payment';
 $this->params['breadcrumbs'][] = ['label' => 'Headers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,11 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default">
             <div class="panel-heading">
                 <!--<h3 class="panel-title"><?Html::encode($this->title) ?></h3>-->
-                <?= Html::a('<i class="fa fa-th-list"></i><span> Outward Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
+                <?= Html::a('<i class="fa fa-th-list"></i><span> Non Payment Declarations</span>', ['index'], ['class' => 'btn btn-warning  btn-icon btn-icon-standalone']) ?>
 
             </div>
             <div class="panel-body">
-                <?= common\components\OutwardTabWidget::widget(['id' => $id, 'step' => 7]) ?>
+                <?= common\components\NonpaymentTabWidget::widget(['id' => $id, 'step' => 7]) ?>
                 <div class="panel-body"><div class="header-create">
                         <div class="header-form form-inline">
                             <h3 class="heading">Item</h3>
@@ -39,10 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $country = common\models\Country::findOne($declarant->country_of_orgin)->name;
                                 }
                                 ?>
-                                <input type="hidden" id="outwarditem-item_id" class="form-control itemcode_field" name="OutwardItem[item_id]" value= "<?= !empty($model->item_id) ? $model->item_id : '' ?>">
+                                <input type="hidden" id="nonpaymentitem-item_id" class="form-control itemcode_field" name="NonpaymentItem[item_id]" value= "<?= !empty($model->item_id) ? $model->item_id : '' ?>">
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="item-item_code">Inhouse Item Code<span class="caret"></span></label>
-                                    <input type="text" id="outwarditem-item_code" attr_item="outwarditem" class="form-control item-item_code" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
+                                    <input type="text" id="nonpaymentitem-item_code" attr_item="nonpaymentitem" class="form-control item-item_code" value= "<?= !empty($declarant->code) ? $declarant->code : '' ?>" autocomplete="off">
                                     <div class="search-keyword-dropdown search-keyword-item_code"></div>
                                 </div>
 
@@ -51,15 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="party-declarant_id">Country Of Origin</label>
-                                    <input type="text" id="outwarditem-country_origin" class="form-control itemcode_field" readonly="readonly" name="country_origin" value= "<?= !empty($declarant->country_of_orgin) ? $declarant->country_of_orgin : '' ?>">
+                                    <input type="text" id="nonpaymentitem-country_origin" class="form-control itemcode_field" readonly="readonly" name="country_origin" value= "<?= !empty($declarant->country_of_orgin) ? $declarant->country_of_orgin : '' ?>">
                                 </div>
                                 <div class='col-md-3 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="party-declarant_id">Brand</label>
-                                    <input type="text" id="outwarditem-brand" class="form-control itemcode_field" readonly="readonly" name="brand" value= "<?= !empty($declarant->brand) ? $declarant->brand : '' ?>">
+                                    <input type="text" id="nonpaymentitem-brand" class="form-control itemcode_field" readonly="readonly" name="brand" value= "<?= !empty($declarant->brand) ? $declarant->brand : '' ?>">
                                 </div>
                             </div>
                             <div class="row">
-                                <input type="hidden" id="item-hs_id" class="form-control release_field" name="OutwardItem[hs_id]" value= "">
+                                <input type="hidden" id="item-hs_id" class="form-control release_field" name="NonpaymentItem[hs_id]" value= "">
                                 <div class='col-md-2 col-sm-6 col-xs-12 left_padd'>  
                                     <label class="control-label" for="item-hs_code">HS Code</label>
                                     <input type="text" id="item-hs_code" class="form-control" value= "" autocomplete="off">
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <div class='col-md-8 col-sm-6 col-xs-12 left_padd'>
                                             <div class="form-group field-item-cif_fob_value">
                                                 <label class="control-label" for="item-unit_price">Unit Price</label>
-                                                <input type="text" id="item-unit_price" class="form-control" name="OutwardItem[unit_price]">
+                                                <input type="text" id="item-unit_price" class="form-control" name="NonpaymentItem[unit_price]">
                                             </div>
                                         </div>
                                         <div class='col-md-2 col-sm-6 col-xs-12 left_padd'>  
@@ -308,7 +308,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var unit = $('.item_no_unit').val();
         var price = $('.item_unit_price').val();
         var total = parseFloat(unit) * parseFloat(price);
-        $('#outwarditem-cif_fob_value').val(total);
+        $('#nonpaymentitem-cif_fob_value').val(total);
         $('.item_no_unit').val('');
         $('.item_unit_price').val('');
         $('.item_calculator').modal('toggle');
