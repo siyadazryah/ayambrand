@@ -163,10 +163,13 @@ $this->params['breadcrumbs'][] = $this->title;
 								<div class='col-md-2 col-sm-6 col-xs-12 left_padd'>
 									<label class="control-label" for="party-claimant_party_id">Claimant Name</label>
 									<input type="text" id="party-claimant_party_claimant_name" class="form-control claimant_field" name="claimant_name" readonly="readonly" value= "<?= !empty($claimant->claimant_name) ? $claimant->claimant_name : '' ?>">
-								</div>
-								<a  data-val="2" class="new_claimant_party" data-toggle="modal" data-target="#modal-default" >
-									new claimant party
-								</a>
+									<a  data-val="2" class="new_claimant_party" data-toggle="modal" data-target="#modal-default">
+										New claimant party
+									</a></div>
+
+
+
+
 							</div>
 
 							<div class='col-md-4 col-sm-6 col-xs-12'>
